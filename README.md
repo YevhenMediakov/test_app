@@ -1,4 +1,4 @@
-# ecolines_app
+# test app
 
 Test app
 ### Jira
