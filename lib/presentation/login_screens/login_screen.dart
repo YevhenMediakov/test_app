@@ -1,9 +1,10 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:test_prj/_infra/service_locator/app_service_locator.dart';
+import 'package:test_prj/presentation/components/extensions/build_context_extensions.dart';
 import 'package:test_prj/presentation/components/text_field/app_text_field.dart';
 import 'package:test_prj/presentation/components/text_field/show_password_button.dart';
+import 'package:test_prj/resources/app_text_styles.dart';
 
 import 'login_cubit.dart';
 import 'login_state.dart';
@@ -47,7 +48,6 @@ class LogInScreenState extends State<LogInScreen> {
         if (state.isCheckboxValid ?? false) {
           _openHomeScreen();
         }
-
         // if (state.exception != null) {
         //   context.showErrorException(state.exception);
         // }
@@ -68,16 +68,35 @@ class LogInScreenState extends State<LogInScreen> {
                 padding: const EdgeInsets.fromLTRB(16, 24, 16, 16),
                 child: Column(
                   children: [
+                    const SizedBox(height: 50),
+                    Text(context.strings.loginScreenTitle, style: AppTextStyles.h1Bold),
+                    const SizedBox(height: 24),
                     _LoginTextFields(
                       emailController: _emailController,
                       passwordController: _passwordController,
                       isPasswordObscureText: state.isPasswordObscureText,
-                      onPasswordObscureTextChange: _screenBloc.isPasswordObscureText,
+                      onPasswordObscureTextChange:
+                          _screenBloc.isPasswordObscureText,
                       emailInvalid: state.isEmailValid == false,
                       passwordInvalid: state.isPasswordValid == false,
                     ),
                     const SizedBox(height: 24),
-                    Checkbox(value: state.isCheckboxValid ?? false, onChanged: (value){}),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                         Text(context.strings.loginScreenCheckBox,
+                            style: AppTextStyles.bodyL),
+                        Checkbox(
+                            value: state.isCheckboxValid ?? false,
+                            onChanged: (value) {}),
+                      ],
+                    ),
+                    const Spacer(),
+                    TextButton(
+                        onPressed: _screenBloc.loginUser,
+                        child: Text(context.strings.loginScreenButton),
+
+                    ),
                     const Spacer(),
                   ],
                 ),
@@ -92,7 +111,6 @@ class LogInScreenState extends State<LogInScreen> {
   _openHomeScreen() {
     // Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => const HomeScreen()), (route) => false);
   }
-
 }
 
 class _LoginTextFields extends StatelessWidget {
@@ -120,7 +138,7 @@ class _LoginTextFields extends StatelessWidget {
         const SizedBox(height: 36),
         AppTextField(
           controller: emailController,
-          hintText: "Email",
+          hintText: context.strings.loginScreenEmail,
           textCapitalization: TextCapitalization.none,
           keyboardType: TextInputType.emailAddress,
           forceErrorBorder: emailInvalid,
@@ -129,7 +147,7 @@ class _LoginTextFields extends StatelessWidget {
         AppTextField(
           controller: passwordController,
           obscureText: isPasswordObscureText,
-          hintText: "Password",
+          hintText: context.strings.loginScreenPassword,
           textCapitalization: TextCapitalization.none,
           keyboardType: TextInputType.visiblePassword,
           forceErrorBorder: passwordInvalid,
@@ -143,5 +161,3 @@ class _LoginTextFields extends StatelessWidget {
     );
   }
 }
-
-

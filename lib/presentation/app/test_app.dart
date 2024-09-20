@@ -3,6 +3,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:test_prj/_infra/service_locator/app_service_locator.dart';
 import 'package:test_prj/presentation/app/app_cubit.dart';
 import 'package:test_prj/presentation/app/app_state.dart';
@@ -40,6 +42,13 @@ class TestApp extends StatelessWidget {
                 ),
                 title: "Test App",
                 debugShowCheckedModeBanner: false,
+                localizationsDelegates: const [
+                  AppLocalizations.delegate,
+                  GlobalMaterialLocalizations.delegate,
+                  GlobalCupertinoLocalizations.delegate,
+                  GlobalWidgetsLocalizations.delegate,
+                ],
+                // supportedLocales: AppLanguages.values.map((e) => Locale(e.locale)),
                 // builder: (context, widget) {
                 //   ErrorWidget.builder = (FlutterErrorDetails errorDetails) {
                 //     return AppCustomWidgetBuildingError(errorDetails: errorDetails);

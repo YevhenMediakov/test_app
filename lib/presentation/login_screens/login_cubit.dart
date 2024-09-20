@@ -1,5 +1,3 @@
-
-
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:test_prj/domain/use_case/login/login_use_case.dart';
 import 'package:test_prj/domain/validators/email_validator.dart';
@@ -15,13 +13,15 @@ class LoginCubit extends Cubit<LoginState> {
     required final emailValidator,
     required final passwordValidator,
     required final loginUserUseCase,
-  }): _emailValidator = emailValidator,
-  _passwordValidator = passwordValidator,
+  })
+      : _emailValidator = emailValidator,
+        _passwordValidator = passwordValidator,
         _loginUserUseCase = loginUserUseCase,
         super(LoginState.initial());
 
   updateEmail(String email) {
-    emit(state.copyWith(email: email, isEmailValid: true));
+    emit(state.copyWith(
+        email: email, isEmailValid: _emailValidator.validate(email: email)));
   }
 
   isPasswordObscureText() {
@@ -29,18 +29,24 @@ class LoginCubit extends Cubit<LoginState> {
   }
 
   updatePassword(String password) {
-    emit(state.copyWith(password: password, isPasswordValid: true));
+    emit(state.copyWith(password: password,
+        isPasswordValid: _passwordValidator.validate(password: password)));
   }
 
 
   bool _validateFields() {
     final emailValid = _emailValidator.validate(email: state.email);
     final passwordValid = _passwordValidator.validate(password: state.password);
-    emit(state.copyWith(isEmailValid: emailValid, isPasswordValid: passwordValid));
+    emit(state.copyWith(
+        isEmailValid: emailValid, isPasswordValid: passwordValid));
     return emailValid && passwordValid && state.isCheckboxValid == true;
   }
 
   loginUser() async {
-
+    emit(state.copyWith(isLoading: true));
+    _loginUserUseCase.execute(email: state.email, password: state.password);
+    Future.delayed(const Duration(seconds: 3)).then((_) {
+      emit(state.copyWith(isLoading: false));
+    });
   }
 }
