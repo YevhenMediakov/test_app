@@ -67,7 +67,10 @@ class LoginCubit extends Cubit<LoginState> {
         String token = await _loginUserUseCase.execute(
             email: state.email, password: state.password);
         if (state.isCheckboxValid) {
-          _saveTokenUseCase.execute(token: token);
+          _saveTokenUseCase.execute(
+              token: token,
+              email: state.email,
+              password: state.password.hashCode.toString());
         }
         emit(state.copyWith(isLogInComplete: true, isLoading: false));
       });

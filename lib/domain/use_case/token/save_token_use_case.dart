@@ -5,10 +5,13 @@ class SaveTokenUseCase {
 
   SaveTokenUseCase({
     required LocalStorageRepository localStorageRepository,
-  }): _localStorageRepository = localStorageRepository;
+  }) : _localStorageRepository = localStorageRepository;
 
-
-  Future execute({required String token}) async {
-     _localStorageRepository.saveToken(token: token);
+  Future execute({
+    required String token,
+    required String email,
+    required String password,
+  }) async {
+    _localStorageRepository.saveToken(token: token, email: email, password: password);
   }
 }

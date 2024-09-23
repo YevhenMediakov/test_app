@@ -28,9 +28,11 @@ class LocalStorageRepositoryImpl extends LocalStorageRepository {
   }
 
   @override
-  Future saveToken({required String token}) async {
+  Future saveToken({required String token, required String email, required String password}) async {
     try{
        await _sharedPreferences.setString(AppKeys.userTokenKey, token);
+       await _sharedPreferences.setString(AppKeys.userPasswordKey, password);
+       await _sharedPreferences.setString(AppKeys.userPasswordKey, email);
     } catch(e){
       rethrow;
     }
