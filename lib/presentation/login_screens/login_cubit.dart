@@ -11,21 +11,30 @@ class LoginCubit extends Cubit<LoginState> {
   final PasswordValidator _passwordValidator;
   final LoginUserUseCase _loginUserUseCase;
   final SaveTokenUseCase _saveTokenUseCase;
+  final LoadTokenUseCase _loadTokenUseCase;
 
   LoginCubit(
       {required final emailValidator,
       required final passwordValidator,
       required final loginUserUseCase,
-      required final saveTokenUseCase})
+      required final saveTokenUseCase,
+      required final loadTokenUseCase})
       : _emailValidator = emailValidator,
         _passwordValidator = passwordValidator,
         _loginUserUseCase = loginUserUseCase,
         _saveTokenUseCase = saveTokenUseCase,
+        _loadTokenUseCase = loadTokenUseCase,
         super(LoginState.initial()) {
     _initial();
   }
 
-  _initial() {}
+  _initial() async {
+    emit(state.copyWith(isLoading: true));
+    bool isTokenSaved = await _loadTokenUseCase.execute();
+    if (isTokenSaved) {
+      emit(state.copyWith(isLogInComplete: isTokenSaved, isLoading: false));
+    }
+  }
 
   updateEmail(String email) {
     emit(state.copyWith(email: email, isEmailValid: true));
@@ -55,8 +64,9 @@ class LoginCubit extends Cubit<LoginState> {
     emit(state.copyWith(isLoading: true));
     if (_validateFields()) {
       Future.delayed(const Duration(seconds: 2)).then((_) async {
-        String token = await _loginUserUseCase.execute(email: state.email, password: state.password);
-        if(state.isCheckboxValid) {
+        String token = await _loginUserUseCase.execute(
+            email: state.email, password: state.password);
+        if (state.isCheckboxValid) {
           _saveTokenUseCase.execute(token: token);
         }
         emit(state.copyWith(isLogInComplete: true, isLoading: false));

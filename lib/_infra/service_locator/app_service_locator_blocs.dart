@@ -19,6 +19,7 @@ class AppServiceLocatorBlocs {
           loginUserUseCase: instance<LoginUserUseCase>(),
           passwordValidator: instance<PasswordValidator>(),
       saveTokenUseCase: instance<SaveTokenUseCase>(),
+      loadTokenUseCase: instance<LoadTokenUseCase>(),
         ));
   }
 }
