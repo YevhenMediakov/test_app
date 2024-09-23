@@ -8,7 +8,7 @@ class LoginUserUseCase {
   }): _loginRepository = loginRepository;
 
 
-  Future execute({ required String email, required String password,}) async {
-
+  Future<String> execute({ required String email, required String password,}) async {
+    return _loginRepository.loginUser(email: email, password: password);
   }
 }

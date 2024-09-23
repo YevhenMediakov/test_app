@@ -23,7 +23,7 @@
   "@loginScreenCheckBox": {
     "type": "text"
   },
-  "loginScreenButton": "Stay in profile",
+  "loginScreenButton": "Login",
   "@loginScreenButton": {
     "type": "text"
   }

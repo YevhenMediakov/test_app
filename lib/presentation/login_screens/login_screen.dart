@@ -45,18 +45,14 @@ class LogInScreenState extends State<LogInScreen> {
     return BlocConsumer<LoginCubit, LoginState>(
       bloc: _screenBloc,
       listener: (context, state) {
-        if (state.isCheckboxValid ?? false) {
-          _openHomeScreen();
+        if(state.isLogInComplete){
+          openHomeScreen();
         }
-        // if (state.exception != null) {
-        //   context.showErrorException(state.exception);
-        // }
-        //
-        // if (state.isLoading) {
-        //   context.showLoading();
-        // } else {
-        //   context.hideLoading();
-        // }
+        if (state.isLoading) {
+          context.showLoading();
+        } else {
+          context.hideLoading();
+        }
       },
       builder: (context, state) {
         return Scaffold(
@@ -69,14 +65,15 @@ class LogInScreenState extends State<LogInScreen> {
                 child: Column(
                   children: [
                     const SizedBox(height: 50),
-                    Text(context.strings.loginScreenTitle, style: AppTextStyles.h1Bold),
+                    Text(context.strings.loginScreenTitle,
+                        style: AppTextStyles.h1Bold),
                     const SizedBox(height: 24),
                     _LoginTextFields(
                       emailController: _emailController,
                       passwordController: _passwordController,
                       isPasswordObscureText: state.isPasswordObscureText,
                       onPasswordObscureTextChange:
-                          _screenBloc.isPasswordObscureText,
+                      _screenBloc.isPasswordObscureText,
                       emailInvalid: state.isEmailValid == false,
                       passwordInvalid: state.isPasswordValid == false,
                     ),
@@ -84,18 +81,19 @@ class LogInScreenState extends State<LogInScreen> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                         Text(context.strings.loginScreenCheckBox,
+                        Text(context.strings.loginScreenCheckBox,
                             style: AppTextStyles.bodyL),
                         Checkbox(
-                            value: state.isCheckboxValid ?? false,
-                            onChanged: (value) {}),
+                            value: _screenBloc.state.isCheckboxValid ?? false,
+                            onChanged: (value) {
+                              _screenBloc.isCheckboxValid();
+                            }),
                       ],
                     ),
                     const Spacer(),
                     TextButton(
-                        onPressed: _screenBloc.loginUser,
-                        child: Text(context.strings.loginScreenButton),
-
+                      onPressed: _screenBloc.loginUser,
+                      child: Text(context.strings.loginScreenButton),
                     ),
                     const Spacer(),
                   ],
@@ -108,8 +106,8 @@ class LogInScreenState extends State<LogInScreen> {
     );
   }
 
-  _openHomeScreen() {
-    // Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => const HomeScreen()), (route) => false);
+  openHomeScreen(){
+
   }
 }
 

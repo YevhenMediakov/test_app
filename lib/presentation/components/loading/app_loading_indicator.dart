@@ -38,7 +38,7 @@ class _AppLoadingIndicatorState extends State<AppLoadingIndicator> with SingleTi
           shape: BoxShape.circle
       ),
       child: const Padding(
-        padding: EdgeInsets.fromLTRB(36, 0, 36, 36),
+        padding: EdgeInsets.fromLTRB(36, 36, 36, 36),
         child: CircularProgressIndicator(),
       ),
     );

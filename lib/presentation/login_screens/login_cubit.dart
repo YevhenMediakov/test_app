@@ -1,5 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:test_prj/domain/use_case/login/login_use_case.dart';
+import 'package:test_prj/domain/use_case/token/load_token_use_case.dart';
+import 'package:test_prj/domain/use_case/token/save_token_use_case.dart';
 import 'package:test_prj/domain/validators/email_validator.dart';
 import 'package:test_prj/domain/validators/password_validator.dart';
 import 'package:test_prj/presentation/login_screens/login_state.dart';
@@ -8,45 +10,61 @@ class LoginCubit extends Cubit<LoginState> {
   final EmailValidator _emailValidator;
   final PasswordValidator _passwordValidator;
   final LoginUserUseCase _loginUserUseCase;
+  final SaveTokenUseCase _saveTokenUseCase;
 
-  LoginCubit({
-    required final emailValidator,
-    required final passwordValidator,
-    required final loginUserUseCase,
-  })
+  LoginCubit(
+      {required final emailValidator,
+      required final passwordValidator,
+      required final loginUserUseCase,
+      required final saveTokenUseCase})
       : _emailValidator = emailValidator,
         _passwordValidator = passwordValidator,
         _loginUserUseCase = loginUserUseCase,
-        super(LoginState.initial());
+        _saveTokenUseCase = saveTokenUseCase,
+        super(LoginState.initial()) {
+    _initial();
+  }
+
+  _initial() {}
 
   updateEmail(String email) {
-    emit(state.copyWith(
-        email: email, isEmailValid: _emailValidator.validate(email: email)));
+    emit(state.copyWith(email: email, isEmailValid: true));
   }
 
   isPasswordObscureText() {
     emit(state.copyWith(isPasswordObscureText: !state.isPasswordObscureText));
   }
 
-  updatePassword(String password) {
-    emit(state.copyWith(password: password,
-        isPasswordValid: _passwordValidator.validate(password: password)));
+  isCheckboxValid() {
+    emit(state.copyWith(isCheckboxValid: !state.isCheckboxValid));
   }
 
+  updatePassword(String password) {
+    emit(state.copyWith(password: password, isPasswordValid: true));
+  }
 
   bool _validateFields() {
     final emailValid = _emailValidator.validate(email: state.email);
     final passwordValid = _passwordValidator.validate(password: state.password);
     emit(state.copyWith(
         isEmailValid: emailValid, isPasswordValid: passwordValid));
-    return emailValid && passwordValid && state.isCheckboxValid == true;
+    return emailValid && passwordValid == true;
   }
 
   loginUser() async {
     emit(state.copyWith(isLoading: true));
-    _loginUserUseCase.execute(email: state.email, password: state.password);
-    Future.delayed(const Duration(seconds: 3)).then((_) {
-      emit(state.copyWith(isLoading: false));
-    });
+    if (_validateFields()) {
+      Future.delayed(const Duration(seconds: 2)).then((_) async {
+        String token = await _loginUserUseCase.execute(email: state.email, password: state.password);
+        if(state.isCheckboxValid) {
+          _saveTokenUseCase.execute(token: token);
+        }
+        emit(state.copyWith(isLogInComplete: true, isLoading: false));
+      });
+    } else {
+      Future.delayed(const Duration(seconds: 2)).then((_) {
+        emit(state.copyWith(isLoading: false));
+      });
+    }
   }
 }

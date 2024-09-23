@@ -1,25 +1,19 @@
+import 'package:faker/faker.dart';
 import 'package:test_prj/domain/repository/login_repository.dart';
 
 class LoginRepositoryImpl extends LoginRepository {
+  final Faker faker = Faker();
   LoginRepositoryImpl();
 
   @override
-  Future<void> loginUser({
+  Future<String> loginUser({
     required String email,
     required String password,
   }) async {
-    try {} catch (exception) {}
-  }
-
-  @override
-  Future logout() async {}
-
-  @override
-  Future<void> storeCurrentUserId({required int? userId}) async {}
-
-  @override
-  Future registerUser() {
-    // TODO: implement registerUser
-    throw UnimplementedError();
+    try {
+      return faker.jwt.valid();
+    } catch (exception) {
+      rethrow;
+    }
   }
 }
