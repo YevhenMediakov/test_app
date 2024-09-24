@@ -11,6 +11,7 @@ class LoginRepositoryImpl extends LoginRepository {
     required String password,
   }) async {
     try {
+      await Future.delayed(const Duration(seconds: 2));
       return faker.jwt.valid();
     } catch (exception) {
       rethrow;

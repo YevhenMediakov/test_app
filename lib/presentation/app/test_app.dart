@@ -1,7 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:test_prj/data/repository/local_storage_repository_impl.dart';
+import 'package:test_prj/data/repository/login_repository_impl.dart';
+import 'package:test_prj/data/validators/email_validator.dart';
+import 'package:test_prj/data/validators/password_validator.dart';
+import 'package:test_prj/domain/repository/local_storage_repository.dart';
+import 'package:test_prj/domain/repository/login_repository.dart';
+import 'package:test_prj/domain/validators/email_validator.dart';
+import 'package:test_prj/domain/validators/password_validator.dart';
 import 'package:test_prj/presentation/login_screens/login_screen.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 import 'package:overlay_support/overlay_support.dart';
@@ -12,41 +21,43 @@ class TestApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GlobalLoaderOverlay(
-      overlayColor: AppColors.black_26,
-      child: AnnotatedRegion<SystemUiOverlayStyle>(
-        value: SystemUiOverlayStyle.dark.copyWith(
-          statusBarColor: Colors.transparent,
-          systemNavigationBarColor: AppColors.white,
-          systemNavigationBarDividerColor: Colors.transparent,
-          systemNavigationBarIconBrightness: Brightness.dark,
+    return MultiRepositoryProvider(
+      providers: [
+        RepositoryProvider<LocalStorageRepository>(
+          create: (context) => LocalStorageRepositoryImpl(),
         ),
-        child: OverlaySupport.global(
-          child: MaterialApp(
-            theme: ThemeData(
-              appBarTheme: const AppBarTheme(
-                systemOverlayStyle: SystemUiOverlayStyle.dark,
+        RepositoryProvider<EmailValidator>(
+          create: (context) => EmailValidatorImpl(),
+        ),
+        RepositoryProvider<PasswordValidator>(
+          create: (context) => PasswordValidatorImpl(),
+        ),
+        RepositoryProvider<LoginRepository>(
+          create: (context) => LoginRepositoryImpl(),
+        ),
+      ],
+      child: GlobalLoaderOverlay(
+        overlayColor: AppColors.black_26,
+        child: AnnotatedRegion<SystemUiOverlayStyle>(
+          value: SystemUiOverlayStyle.dark.copyWith(
+            systemNavigationBarDividerColor: Colors.transparent,
+            systemNavigationBarIconBrightness: Brightness.dark,
+          ),
+          child: OverlaySupport.global(
+            child: MaterialApp(
+              title: "Test App",
+              debugShowCheckedModeBanner: false,
+              localizationsDelegates: const [
+                AppLocalizations.delegate,
+                GlobalMaterialLocalizations.delegate,
+                GlobalCupertinoLocalizations.delegate,
+                GlobalWidgetsLocalizations.delegate,
+              ],
+              home: Builder(
+                builder: (context) {
+                  return const LogInScreen();
+                },
               ),
-            ),
-            title: "Test App",
-            debugShowCheckedModeBanner: false,
-            localizationsDelegates: const [
-              AppLocalizations.delegate,
-              GlobalMaterialLocalizations.delegate,
-              GlobalCupertinoLocalizations.delegate,
-              GlobalWidgetsLocalizations.delegate,
-            ],
-            // supportedLocales: AppLanguages.values.map((e) => Locale(e.locale)),
-            // builder: (context, widget) {
-            //   ErrorWidget.builder = (FlutterErrorDetails errorDetails) {
-            //     return AppCustomWidgetBuildingError(errorDetails: errorDetails);
-            //   };
-            //   return AppEnvironmentBanner(child: widget ?? const SizedBox());
-            // },
-            home: Builder(
-              builder: (context) {
-                return const LogInScreen();
-              },
             ),
           ),
         ),

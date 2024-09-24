@@ -1,7 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:test_prj/domain/use_case/login/login_use_case.dart';
-import 'package:test_prj/domain/use_case/token/load_token_use_case.dart';
-import 'package:test_prj/domain/use_case/token/save_token_use_case.dart';
+import 'package:test_prj/domain/repository/local_storage_repository.dart';
+import 'package:test_prj/domain/repository/login_repository.dart';
 import 'package:test_prj/domain/validators/email_validator.dart';
 import 'package:test_prj/domain/validators/password_validator.dart';
 import 'package:test_prj/presentation/login_screens/login_state.dart';
@@ -9,28 +8,27 @@ import 'package:test_prj/presentation/login_screens/login_state.dart';
 class LoginCubit extends Cubit<LoginState> {
   final EmailValidator _emailValidator;
   final PasswordValidator _passwordValidator;
-  final LoginUserUseCase _loginUserUseCase;
-  final SaveTokenUseCase _saveTokenUseCase;
-  final LoadTokenUseCase _loadTokenUseCase;
+  final LoginRepository
+      _loginRepository; // todo replace uses cases with repository
+  final LocalStorageRepository
+      _localStorageRepository; // todo remove one time used use cases// todo remove one time used use cases
 
-  LoginCubit(
-      {required final emailValidator,
-      required final passwordValidator,
-      required final loginUserUseCase,
-      required final saveTokenUseCase,
-      required final loadTokenUseCase})
-      : _emailValidator = emailValidator,
+  LoginCubit({
+    required final emailValidator,
+    required final passwordValidator,
+    required final loginRepository,
+    required final localStorageRepository,
+  })  : _emailValidator = emailValidator,
         _passwordValidator = passwordValidator,
-        _loginUserUseCase = loginUserUseCase,
-        _saveTokenUseCase = saveTokenUseCase,
-        _loadTokenUseCase = loadTokenUseCase,
+        _localStorageRepository = localStorageRepository,
+        _loginRepository = loginRepository,
         super(LoginState.initial()) {
     _initial();
   }
 
   _initial() async {
     emit(state.copyWith(isLoading: true));
-    bool isTokenSaved = await _loadTokenUseCase.execute();
+    bool isTokenSaved = await _localStorageRepository.loadToken();
     if (isTokenSaved) {
       emit(state.copyWith(isLogInComplete: isTokenSaved, isLoading: false));
     }
@@ -41,11 +39,12 @@ class LoginCubit extends Cubit<LoginState> {
     emit(state.copyWith(email: email, isEmailValid: true));
   }
 
-  isPasswordObscureText() {
-    emit(state.copyWith(isPasswordObscureText: !state.isPasswordObscureText));
+  changePasswordVisibility() {
+    emit(state.copyWith(
+        isPasswordObscureText: !state.isPasswordObscureText));
   }
 
-  isCheckboxValid() {
+  changeCheckbox() {
     emit(state.copyWith(isCheckboxValid: !state.isCheckboxValid));
   }
 
@@ -64,17 +63,18 @@ class LoginCubit extends Cubit<LoginState> {
   loginUser() async {
     emit(state.copyWith(isLoading: true));
     if (_validateFields()) {
-      Future.delayed(const Duration(seconds: 2)).then((_) async {
-        String token = await _loginUserUseCase.execute(
-            email: state.email, password: state.password);
-        if (state.isCheckboxValid) {
-          _saveTokenUseCase.execute(
-              token: token,
-              email: state.email,
-              password: state.password.hashCode.toString());
-        }
-        emit(state.copyWith(isLogInComplete: true, isLoading: false));
-      });
+      final token = await _loginRepository.loginUser(
+        email: state.email,
+        password: state.password,
+      );
+      if (state.isCheckboxValid) {
+        await _localStorageRepository.saveToken(
+          token: token,
+          email: state.email,
+          password: state.password.hashCode.toString(),
+        );
+      }
+      emit(state.copyWith(isLogInComplete: true, isLoading: false));
     } else {
       Future.delayed(const Duration(seconds: 2)).then((_) {
         emit(state.copyWith(isLoading: false));

@@ -1,41 +1,36 @@
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:test_prj/_infra/enviroment/enviroment_keys.dart';
-import 'package:test_prj/_infra/service_locator/app_service_locator.dart';
 import 'package:test_prj/domain/repository/local_storage_repository.dart';
 
-
-
-class LocalStorageRepositoryImpl extends LocalStorageRepository {
+class LocalStorageRepositoryImpl implements LocalStorageRepository {
   LocalStorageRepositoryImpl();
-  final SharedPreferences _sharedPreferences = getIt<SharedPreferences>();
 
+  static const String userTokenKey = "APP_USER_TOKEN";
+  static const String userPasswordKey = "APP_USER_PASSWORD";
+  static const String userEmailKey = "APP_USER_EMAIL";
+
+  final _sharedPreferences = SharedPreferences.getInstance();
 
   @override
   Future<bool> loadToken() async {
-    try{
-     return _sharedPreferences.getString(AppKeys.userTokenKey)?.isNotEmpty ?? false;
-    } catch(e){
-      rethrow;
-    }
+    final sharedPreferences = await _sharedPreferences;
+    return sharedPreferences.getString(userTokenKey)?.isNotEmpty ?? false;
   }
 
   @override
-  Future removeToken() async{
-    try{
-      await _sharedPreferences.remove(AppKeys.userTokenKey);
-    } catch(e){
-      rethrow;
-    }
+  Future<void> removeToken() async {
+    final sharedPreferences = await _sharedPreferences;
+    await sharedPreferences.remove(userTokenKey);
   }
 
   @override
-  Future saveToken({required String token, required String email, required String password}) async {
-    try{
-       await _sharedPreferences.setString(AppKeys.userTokenKey, token);
-       await _sharedPreferences.setString(AppKeys.userPasswordKey, password);
-       await _sharedPreferences.setString(AppKeys.userPasswordKey, email);
-    } catch(e){
-      rethrow;
-    }
+  Future<void> saveToken({
+    required String token,
+    required String email,
+    required String password,
+  }) async {
+    final sharedPreferences = await _sharedPreferences;
+    await sharedPreferences.setString(userTokenKey, token);
+    await sharedPreferences.setString(userPasswordKey, password);
+    await sharedPreferences.setString(userPasswordKey, email);
   }
 }

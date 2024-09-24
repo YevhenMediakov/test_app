@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:test_prj/_infra/service_locator/app_service_locator.dart';
+import 'package:test_prj/domain/repository/local_storage_repository.dart';
+import 'package:test_prj/domain/repository/login_repository.dart';
+import 'package:test_prj/domain/repository/profile_data_reposiyory.dart';
+import 'package:test_prj/domain/validators/email_validator.dart';
+import 'package:test_prj/domain/validators/password_validator.dart';
 import 'package:test_prj/presentation/components/extensions/build_context_extensions.dart';
 import 'package:test_prj/presentation/components/text_field/app_text_field.dart';
 import 'package:test_prj/presentation/components/text_field/show_password_button.dart';
+import 'package:test_prj/presentation/home_screen/home_screen.dart';
 import 'package:test_prj/resources/app_text_styles.dart';
 
 import 'login_cubit.dart';
-import 'login_state.dart';
 
 class LogInScreen extends StatefulWidget {
   const LogInScreen({super.key});
@@ -17,97 +21,126 @@ class LogInScreen extends StatefulWidget {
 }
 
 class LogInScreenState extends State<LogInScreen> {
-  late final LoginCubit _screenBloc = getIt<LoginCubit>();
-  final _emailController = TextEditingController();
-  final _passwordController = TextEditingController();
-
   @override
   void initState() {
     super.initState();
-    _emailController.addListener(() {
-      _screenBloc.updateEmail(_emailController.text);
-    });
-    _passwordController.addListener(() {
-      _screenBloc.updatePassword(_passwordController.text);
-    });
   }
 
   @override
   void dispose() {
-    _emailController.dispose();
-    _passwordController.dispose();
-    _screenBloc.close();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<LoginCubit, LoginState>(
-      bloc: _screenBloc,
-      listener: (context, state) {
-        if(_screenBloc.state.isLogInComplete){
-          openHomeScreen();
-        }
-        if (state.isLoading) {
-          context.showLoading();
-        } else {
-          context.hideLoading();
-        }
-      },
-      builder: (context, state) {
-        return Scaffold(
-          resizeToAvoidBottomInset: false,
-          backgroundColor: Colors.white,
-          body: SafeArea(
-            child: Center(
-              child: Padding(
-                padding: const EdgeInsets.fromLTRB(16, 24, 16, 16),
-                child: Column(
-                  children: [
-                    const SizedBox(height: 50),
-                    Text(context.strings.loginScreenTitle,
-                        style: AppTextStyles.h1Bold),
-                    const SizedBox(height: 24),
-                    _LoginTextFields(
-                      emailController: _emailController,
-                      passwordController: _passwordController,
-                      isPasswordObscureText: state.isPasswordObscureText,
-                      onPasswordObscureTextChange:
-                      _screenBloc.isPasswordObscureText,
-                      emailInvalid: state.isEmailValid == false,
-                      passwordInvalid: state.isPasswordValid == false,
+    final _emailController = TextEditingController();
+    final _passwordController = TextEditingController();
+
+    _emailController.addListener(() {
+      context.read<LoginCubit>().updateEmail(_emailController.text);
+    });
+
+    _passwordController.addListener(() {
+      context.read<LoginCubit>().updatePassword(_passwordController.text);
+    });
+
+    return BlocProvider(
+        create: (context) => LoginCubit(
+            localStorageRepository: context.read<LocalStorageRepository>(),
+            loginRepository: context.read<LoginRepository>(),
+            emailValidator: context.read<EmailValidator>(),
+            passwordValidator: context.read<PasswordValidator>()),
+        child: Builder(builder: (context) {
+          return BlocConsumer(
+              bloc: context.read<LoginCubit>(),
+              listener: (context, state) {
+                if (context.watch().isLogInComplete) {
+                  openHomeScreen();
+                }
+                if (context.watch().isLoading) {
+                  context.showLoading();
+                } else {
+                  context.hideLoading();
+                }
+              },
+              builder: (context, state) => Scaffold(
+                  resizeToAvoidBottomInset: false,
+                  backgroundColor: Colors.white,
+                  body: SafeArea(
+                    child: Center(
+                      child: Padding(
+                        padding: const EdgeInsets.fromLTRB(16, 24, 16, 16),
+                        child: Column(
+                          children: [
+                            const SizedBox(height: 50),
+                            Text(context.strings.loginScreenTitle,
+                                style: AppTextStyles.h1Bold),
+                            const SizedBox(height: 24),
+                            _LoginTextFields(
+                              emailController: _emailController,
+                              passwordController: _passwordController,
+                              isPasswordObscureText: context
+                                      .watch<LoginCubit>()
+                                      .state
+                                      .isPasswordObscureText,
+                              onPasswordObscureTextChange: context
+                                  .read<LoginCubit>()
+                                  .changePasswordVisibility,
+                              emailInvalid: context
+                                      .watch<LoginCubit>()
+                                      .state
+                                      .isEmailValid ==
+                                  false,
+                              passwordInvalid: context
+                                      .watch<LoginCubit>()
+                                      .state
+                                      .isPasswordValid ==
+                                  false,
+                            ),
+                            const SizedBox(height: 24),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(context.strings.loginScreenCheckBox,
+                                    style: AppTextStyles.bodyL),
+                                Checkbox(
+                                    value: context
+                                        .watch<LoginCubit>()
+                                        .state
+                                        .isCheckboxValid,
+                                    onChanged: (value) {
+                                      context
+                                          .read<LoginCubit>()
+                                          .changeCheckbox();
+                                    }),
+                              ],
+                            ),
+                            const Spacer(),
+                            TextButton(
+                              onPressed: context.read<LoginCubit>().loginUser,
+                              child: Text(context.strings.loginScreenButton),
+                            ),
+                            TextButton(
+                              onPressed: (){
+                                ProfileDataRepositoryImpl().getData();
+                              },
+                              child: Text(context.strings.loginScreenButton),
+                            ),
+                            const Spacer(),
+                          ],
+                        ),
+                      ),
                     ),
-                    const SizedBox(height: 24),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(context.strings.loginScreenCheckBox,
-                            style: AppTextStyles.bodyL),
-                        Checkbox(
-                            value: _screenBloc.state.isCheckboxValid ?? false,
-                            onChanged: (value) {
-                              _screenBloc.isCheckboxValid();
-                            }),
-                      ],
-                    ),
-                    const Spacer(),
-                    TextButton(
-                      onPressed: _screenBloc.loginUser,
-                      child: Text(context.strings.loginScreenButton),
-                    ),
-                    const Spacer(),
-                  ],
-                ),
-              ),
-            ),
-          ),
-        );
-      },
-    );
+                  )));
+        }));
   }
 
-  openHomeScreen(){
-
+  void openHomeScreen() {
+    Navigator.of(context).pushReplacement(
+      MaterialPageRoute(builder: (BuildContext context) {
+        return const HomeScreen();
+      }),
+    );
   }
 }
 
