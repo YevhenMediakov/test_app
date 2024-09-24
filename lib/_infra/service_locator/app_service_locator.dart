@@ -18,12 +18,4 @@ class AppServiceLocator {
     await AppServiceLocatorBlocs.setup(instance: getIt);
     await AppServiceLocatorValidators.setup(instance: getIt);
   }
-
-  /// Sets the application general context so instances with context dependency can use it.
-  /// Should be called with context under the [MaterialApp] (from the first parent's build method)
-  static void registerAppContext(BuildContext context) {
-    if (!GetIt.I.isRegistered<BuildContext>()) {
-      GetIt.I.registerSingleton<BuildContext>(context);
-    }
-  }
 }

@@ -9,6 +9,7 @@ class LocalStorageRepositoryImpl extends LocalStorageRepository {
   LocalStorageRepositoryImpl();
   final SharedPreferences _sharedPreferences = getIt<SharedPreferences>();
 
+
   @override
   Future<bool> loadToken() async {
     try{

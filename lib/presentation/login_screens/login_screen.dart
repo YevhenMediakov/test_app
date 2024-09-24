@@ -45,7 +45,7 @@ class LogInScreenState extends State<LogInScreen> {
     return BlocConsumer<LoginCubit, LoginState>(
       bloc: _screenBloc,
       listener: (context, state) {
-        if(state.isLogInComplete){
+        if(_screenBloc.state.isLogInComplete){
           openHomeScreen();
         }
         if (state.isLoading) {

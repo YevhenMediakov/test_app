@@ -34,6 +34,7 @@ class LoginCubit extends Cubit<LoginState> {
     if (isTokenSaved) {
       emit(state.copyWith(isLogInComplete: isTokenSaved, isLoading: false));
     }
+    emit(state.copyWith(isLoading: false));
   }
 
   updateEmail(String email) {
