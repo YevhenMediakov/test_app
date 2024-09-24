@@ -16,7 +16,8 @@ class ProfileDataRepositoryImpl implements ProfileDataRepository {
   @override
   Future<List<ProfileData>> getData() async {
     String data = await rootBundle.loadString('assets/data.json');
-    return [];
+    List<dynamic> decodedData = jsonDecode(data);
+    return decodedData.map((e)=> ProfilerRemote.fromJson(e).toData).toList();
   }
 
 }
