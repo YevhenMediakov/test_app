@@ -13,7 +13,8 @@ class LoginState with _$LoginState {
     required bool? isEmailValid,
     required bool isPasswordObscureText,
     required bool? isPasswordValid,
-    required bool? isCheckboxValid,
+    required bool isCheckboxValid,
+    required bool isLogInComplete,
     required Exception? exception,
     required bool isLoading
   }) = _LoginState;
@@ -24,10 +25,11 @@ class LoginState with _$LoginState {
       password: '',
       isEmailValid: null,
       isPasswordValid: null,
-      isCheckboxValid: null,
+      isCheckboxValid: false,
       isPasswordObscureText: true,
       exception: null,
       isLoading: false,
+      isLogInComplete: false,
     );
   }
 }
