@@ -21,7 +21,8 @@ mixin _$LoginState {
   bool? get isEmailValid => throw _privateConstructorUsedError;
   bool get isPasswordObscureText => throw _privateConstructorUsedError;
   bool? get isPasswordValid => throw _privateConstructorUsedError;
-  bool? get isCheckboxValid => throw _privateConstructorUsedError;
+  bool get isCheckboxValid => throw _privateConstructorUsedError;
+  bool get isLogInComplete => throw _privateConstructorUsedError;
   Exception? get exception => throw _privateConstructorUsedError;
   bool get isLoading => throw _privateConstructorUsedError;
 
@@ -44,7 +45,8 @@ abstract class $LoginStateCopyWith<$Res> {
       bool? isEmailValid,
       bool isPasswordObscureText,
       bool? isPasswordValid,
-      bool? isCheckboxValid,
+      bool isCheckboxValid,
+      bool isLogInComplete,
       Exception? exception,
       bool isLoading});
 }
@@ -69,7 +71,8 @@ class _$LoginStateCopyWithImpl<$Res, $Val extends LoginState>
     Object? isEmailValid = freezed,
     Object? isPasswordObscureText = null,
     Object? isPasswordValid = freezed,
-    Object? isCheckboxValid = freezed,
+    Object? isCheckboxValid = null,
+    Object? isLogInComplete = null,
     Object? exception = freezed,
     Object? isLoading = null,
   }) {
@@ -94,10 +97,14 @@ class _$LoginStateCopyWithImpl<$Res, $Val extends LoginState>
           ? _value.isPasswordValid
           : isPasswordValid // ignore: cast_nullable_to_non_nullable
               as bool?,
-      isCheckboxValid: freezed == isCheckboxValid
+      isCheckboxValid: null == isCheckboxValid
           ? _value.isCheckboxValid
           : isCheckboxValid // ignore: cast_nullable_to_non_nullable
-              as bool?,
+              as bool,
+      isLogInComplete: null == isLogInComplete
+          ? _value.isLogInComplete
+          : isLogInComplete // ignore: cast_nullable_to_non_nullable
+              as bool,
       exception: freezed == exception
           ? _value.exception
           : exception // ignore: cast_nullable_to_non_nullable
@@ -124,7 +131,8 @@ abstract class _$$LoginStateImplCopyWith<$Res>
       bool? isEmailValid,
       bool isPasswordObscureText,
       bool? isPasswordValid,
-      bool? isCheckboxValid,
+      bool isCheckboxValid,
+      bool isLogInComplete,
       Exception? exception,
       bool isLoading});
 }
@@ -147,7 +155,8 @@ class __$$LoginStateImplCopyWithImpl<$Res>
     Object? isEmailValid = freezed,
     Object? isPasswordObscureText = null,
     Object? isPasswordValid = freezed,
-    Object? isCheckboxValid = freezed,
+    Object? isCheckboxValid = null,
+    Object? isLogInComplete = null,
     Object? exception = freezed,
     Object? isLoading = null,
   }) {
@@ -172,10 +181,14 @@ class __$$LoginStateImplCopyWithImpl<$Res>
           ? _value.isPasswordValid
           : isPasswordValid // ignore: cast_nullable_to_non_nullable
               as bool?,
-      isCheckboxValid: freezed == isCheckboxValid
+      isCheckboxValid: null == isCheckboxValid
           ? _value.isCheckboxValid
           : isCheckboxValid // ignore: cast_nullable_to_non_nullable
-              as bool?,
+              as bool,
+      isLogInComplete: null == isLogInComplete
+          ? _value.isLogInComplete
+          : isLogInComplete // ignore: cast_nullable_to_non_nullable
+              as bool,
       exception: freezed == exception
           ? _value.exception
           : exception // ignore: cast_nullable_to_non_nullable
@@ -198,6 +211,7 @@ class _$LoginStateImpl extends _LoginState with DiagnosticableTreeMixin {
       required this.isPasswordObscureText,
       required this.isPasswordValid,
       required this.isCheckboxValid,
+      required this.isLogInComplete,
       required this.exception,
       required this.isLoading})
       : super._();
@@ -213,7 +227,9 @@ class _$LoginStateImpl extends _LoginState with DiagnosticableTreeMixin {
   @override
   final bool? isPasswordValid;
   @override
-  final bool? isCheckboxValid;
+  final bool isCheckboxValid;
+  @override
+  final bool isLogInComplete;
   @override
   final Exception? exception;
   @override
@@ -221,7 +237,7 @@ class _$LoginStateImpl extends _LoginState with DiagnosticableTreeMixin {
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'LoginState(email: $email, password: $password, isEmailValid: $isEmailValid, isPasswordObscureText: $isPasswordObscureText, isPasswordValid: $isPasswordValid, isCheckboxValid: $isCheckboxValid, exception: $exception, isLoading: $isLoading)';
+    return 'LoginState(email: $email, password: $password, isEmailValid: $isEmailValid, isPasswordObscureText: $isPasswordObscureText, isPasswordValid: $isPasswordValid, isCheckboxValid: $isCheckboxValid, isLogInComplete: $isLogInComplete, exception: $exception, isLoading: $isLoading)';
   }
 
   @override
@@ -235,6 +251,7 @@ class _$LoginStateImpl extends _LoginState with DiagnosticableTreeMixin {
       ..add(DiagnosticsProperty('isPasswordObscureText', isPasswordObscureText))
       ..add(DiagnosticsProperty('isPasswordValid', isPasswordValid))
       ..add(DiagnosticsProperty('isCheckboxValid', isCheckboxValid))
+      ..add(DiagnosticsProperty('isLogInComplete', isLogInComplete))
       ..add(DiagnosticsProperty('exception', exception))
       ..add(DiagnosticsProperty('isLoading', isLoading));
   }
@@ -255,6 +272,8 @@ class _$LoginStateImpl extends _LoginState with DiagnosticableTreeMixin {
                 other.isPasswordValid == isPasswordValid) &&
             (identical(other.isCheckboxValid, isCheckboxValid) ||
                 other.isCheckboxValid == isCheckboxValid) &&
+            (identical(other.isLogInComplete, isLogInComplete) ||
+                other.isLogInComplete == isLogInComplete) &&
             (identical(other.exception, exception) ||
                 other.exception == exception) &&
             (identical(other.isLoading, isLoading) ||
@@ -270,6 +289,7 @@ class _$LoginStateImpl extends _LoginState with DiagnosticableTreeMixin {
       isPasswordObscureText,
       isPasswordValid,
       isCheckboxValid,
+      isLogInComplete,
       exception,
       isLoading);
 
@@ -289,7 +309,8 @@ abstract class _LoginState extends LoginState {
       required final bool? isEmailValid,
       required final bool isPasswordObscureText,
       required final bool? isPasswordValid,
-      required final bool? isCheckboxValid,
+      required final bool isCheckboxValid,
+      required final bool isLogInComplete,
       required final Exception? exception,
       required final bool isLoading}) = _$LoginStateImpl;
   const _LoginState._() : super._();
@@ -305,7 +326,9 @@ abstract class _LoginState extends LoginState {
   @override
   bool? get isPasswordValid;
   @override
-  bool? get isCheckboxValid;
+  bool get isCheckboxValid;
+  @override
+  bool get isLogInComplete;
   @override
   Exception? get exception;
   @override
