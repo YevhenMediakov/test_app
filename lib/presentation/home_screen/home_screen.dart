@@ -1,42 +1,51 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:test_prj/domain/model/profile.dart';
+import 'package:test_prj/domain/repository/local_storage_repository.dart';
+import 'package:test_prj/domain/repository/profile_data_repository.dart';
+import 'package:test_prj/presentation/components/extensions/build_context_extensions.dart';
+import 'package:test_prj/presentation/home_screen/home_cubit.dart';
+import 'package:test_prj/presentation/home_screen/home_state.dart';
+import 'package:test_prj/presentation/home_screen/profile_screen/profile_screen.dart';
+import 'package:test_prj/presentation/login_screens/login_screen.dart';
 
 import 'package:test_prj/resources/app_colors.dart';
+import 'package:test_prj/resources/app_text_styles.dart';
 
-class HomeScreen extends StatefulWidget {
+class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
 
   @override
-  State<HomeScreen> createState() => _HomeScreenState();
-}
-
-class _HomeScreenState extends State<HomeScreen> {
-  @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-  }
-
-  Future<void> _pullRefresh() async {
-    await Future.delayed(Duration(seconds: 2));
-    setState(() {});
-  }
-
-  @override
   Widget build(BuildContext context) {
+    return BlocProvider(
+      create: (context) => HomeCubit(
+        profileDataRepository: context.read<ProfileDataRepository>(),
+        localStorageRepository: context.read<LocalStorageRepository>(),
+      ),
+      child: Builder(builder: (context) {
+        return BlocListener<HomeCubit, HomeState>(
+            listener: (context, state) {
+              if (context.read<HomeCubit>().state.hasRemovedToken){
+                _logOut(context);
+              }
+            },
+            child: buildScaffold(context));
+      }),
+    );
+  }
+
+  Widget buildScaffold(BuildContext context) {
+    final bloc = context.watch<HomeCubit>();
     return Scaffold(
       appBar: AppBar(
-        // todo add text
-        title: Text("TITLE"),
+        title: Text(
+          context.strings.homeScreenAppBapTitle,
+          style: AppTextStyles.h1,
+        ),
         actions: [
           _ScreenAction(
             onPressed: () {
-              print("pressed");
+              bloc.logOut();
             },
           )
         ],
@@ -44,14 +53,54 @@ class _HomeScreenState extends State<HomeScreen> {
       body: RefreshIndicator(
         onRefresh: _pullRefresh,
         child: ListView.builder(
-          itemCount: 10,
+          itemCount: bloc.state.data.length,
           itemBuilder: (context, index) {
             return ListTile(
-              title: Text(index.toString()),
+              title: Text(
+                bloc.state.data[index].name,
+                style: AppTextStyles.bodyLBold,
+              ),
+              subtitle: Text(
+                bloc.state.data[index].phone,
+                style: AppTextStyles.bodyM,
+              ),
+              leading: const Icon(
+                Icons.person,
+                size: 32,
+              ),
+              trailing: const Icon(
+                Icons.arrow_forward,
+                size: 32,
+              ),
+              onTap: () {
+                _openPersonalDataScreen(context,
+                    profile: bloc.state.data[index]);
+              },
             );
           },
         ),
       ),
+    );
+  }
+
+  Future<void> _pullRefresh() async {
+    await Future.delayed(const Duration(seconds: 2));
+  }
+
+  void _openPersonalDataScreen(BuildContext context,
+      {required ProfileData profile}) {
+    Navigator.of(context).push(
+      MaterialPageRoute(builder: (BuildContext context) {
+        return ProfileScreen(profile: profile);
+      }),
+    );
+  }
+
+  void _logOut(BuildContext context) {
+    Navigator.of(context).pushReplacement(
+      MaterialPageRoute(builder: (BuildContext context) {
+        return const LogInScreen();
+      }),
     );
   }
 }

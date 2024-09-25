@@ -9,6 +9,7 @@ import 'package:test_prj/data/validators/email_validator.dart';
 import 'package:test_prj/data/validators/password_validator.dart';
 import 'package:test_prj/domain/repository/local_storage_repository.dart';
 import 'package:test_prj/domain/repository/login_repository.dart';
+import 'package:test_prj/domain/repository/profile_data_repository.dart';
 import 'package:test_prj/domain/validators/email_validator.dart';
 import 'package:test_prj/domain/validators/password_validator.dart';
 import 'package:test_prj/presentation/login_screens/login_screen.dart';
@@ -35,33 +36,34 @@ class TestApp extends StatelessWidget {
         RepositoryProvider<LoginRepository>(
           create: (context) => LoginRepositoryImpl(),
         ),
+        RepositoryProvider<ProfileDataRepository>(
+          create: (context) => ProfileDataRepositoryImpl(),
+        )
       ],
-      child: Builder(
-        builder: (context) {
-          return GlobalLoaderOverlay(
-            overlayColor: AppColors.black_26,
-            child: AnnotatedRegion<SystemUiOverlayStyle>(
-              value: SystemUiOverlayStyle.dark.copyWith(
-                systemNavigationBarDividerColor: Colors.transparent,
-                systemNavigationBarIconBrightness: Brightness.dark,
-              ),
-              child: const OverlaySupport.global(
-                child: MaterialApp(
-                  title: "Test App",
-                  debugShowCheckedModeBanner: false,
-                  localizationsDelegates: [
-                    AppLocalizations.delegate,
-                    GlobalMaterialLocalizations.delegate,
-                    GlobalCupertinoLocalizations.delegate,
-                    GlobalWidgetsLocalizations.delegate,
-                  ],
-                  home: LogInScreen(),
-                ),
+      child: Builder(builder: (context) {
+        return GlobalLoaderOverlay(
+          overlayColor: AppColors.black_26,
+          child: AnnotatedRegion<SystemUiOverlayStyle>(
+            value: SystemUiOverlayStyle.dark.copyWith(
+              systemNavigationBarDividerColor: Colors.transparent,
+              systemNavigationBarIconBrightness: Brightness.dark,
+            ),
+            child: const OverlaySupport.global(
+              child: MaterialApp(
+                title: "Test App",
+                debugShowCheckedModeBanner: false,
+                localizationsDelegates: [
+                  AppLocalizations.delegate,
+                  GlobalMaterialLocalizations.delegate,
+                  GlobalCupertinoLocalizations.delegate,
+                  GlobalWidgetsLocalizations.delegate,
+                ],
+                home: LogInScreen(),
               ),
             ),
-          );
-        }
-      ),
+          ),
+        );
+      }),
     );
   }
 }

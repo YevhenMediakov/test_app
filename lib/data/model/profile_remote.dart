@@ -4,7 +4,7 @@ import 'package:test_prj/domain/model/profile.dart';
 part 'profile_remote.g.dart';
 
 @JsonSerializable()
-class ProfilerRemote {
+class ProfileRemote {
   @JsonKey()
   final int id;
   @JsonKey()
@@ -22,7 +22,7 @@ class ProfilerRemote {
   @JsonKey()
   final ProfileCompanyRemote company;
 
-  ProfilerRemote({
+  ProfileRemote({
     required this.id,
     required this.name,
     required this.username,
@@ -33,10 +33,10 @@ class ProfilerRemote {
     required this.company,
   });
 
-  factory ProfilerRemote.fromJson(Map<String, dynamic> json) =>
-      _$ProfilerRemoteFromJson(json);
+  factory ProfileRemote.fromJson(Map<String, dynamic> json) =>
+      _$ProfileRemoteFromJson(json);
 
-  ProfileData get toData => ProfileData(
+  ProfileData toData() => ProfileData(
         id: id,
         name: name,
         username: username,

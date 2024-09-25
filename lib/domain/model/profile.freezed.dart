@@ -17,12 +17,19 @@ final _privateConstructorUsedError = UnsupportedError(
 /// @nodoc
 mixin _$ProfileData {
   int get id => throw _privateConstructorUsedError;
+
   String get name => throw _privateConstructorUsedError;
+
   String get username => throw _privateConstructorUsedError;
+
   String get email => throw _privateConstructorUsedError;
+
   ProfileAddress get address => throw _privateConstructorUsedError;
+
   String get phone => throw _privateConstructorUsedError;
+
   String get website => throw _privateConstructorUsedError;
+
   ProfileCompany get company => throw _privateConstructorUsedError;
 
   /// Create a copy of ProfileData
@@ -37,6 +44,7 @@ abstract class $ProfileDataCopyWith<$Res> {
   factory $ProfileDataCopyWith(
           ProfileData value, $Res Function(ProfileData) then) =
       _$ProfileDataCopyWithImpl<$Res, ProfileData>;
+
   @useResult
   $Res call(
       {int id,
@@ -49,6 +57,7 @@ abstract class $ProfileDataCopyWith<$Res> {
       ProfileCompany company});
 
   $ProfileAddressCopyWith<$Res> get address;
+
   $ProfileCompanyCopyWith<$Res> get company;
 }
 
@@ -59,6 +68,7 @@ class _$ProfileDataCopyWithImpl<$Res, $Val extends ProfileData>
 
   // ignore: unused_field
   final $Val _value;
+
   // ignore: unused_field
   final $Res Function($Val) _then;
 
@@ -139,6 +149,7 @@ abstract class _$$ProfileDataImplCopyWith<$Res>
   factory _$$ProfileDataImplCopyWith(
           _$ProfileDataImpl value, $Res Function(_$ProfileDataImpl) then) =
       __$$ProfileDataImplCopyWithImpl<$Res>;
+
   @override
   @useResult
   $Res call(
@@ -153,6 +164,7 @@ abstract class _$$ProfileDataImplCopyWith<$Res>
 
   @override
   $ProfileAddressCopyWith<$Res> get address;
+
   @override
   $ProfileCompanyCopyWith<$Res> get company;
 }
@@ -291,22 +303,30 @@ abstract class _ProfileData extends ProfileData {
       required final String phone,
       required final String website,
       required final ProfileCompany company}) = _$ProfileDataImpl;
+
   const _ProfileData._() : super._();
 
   @override
   int get id;
+
   @override
   String get name;
+
   @override
   String get username;
+
   @override
   String get email;
+
   @override
   ProfileAddress get address;
+
   @override
   String get phone;
+
   @override
   String get website;
+
   @override
   ProfileCompany get company;
 
@@ -321,7 +341,9 @@ abstract class _ProfileData extends ProfileData {
 /// @nodoc
 mixin _$ProfileCompany {
   String get name => throw _privateConstructorUsedError;
+
   String get catchPhrase => throw _privateConstructorUsedError;
+
   String get bs => throw _privateConstructorUsedError;
 
   /// Create a copy of ProfileCompany
@@ -336,6 +358,7 @@ abstract class $ProfileCompanyCopyWith<$Res> {
   factory $ProfileCompanyCopyWith(
           ProfileCompany value, $Res Function(ProfileCompany) then) =
       _$ProfileCompanyCopyWithImpl<$Res, ProfileCompany>;
+
   @useResult
   $Res call({String name, String catchPhrase, String bs});
 }
@@ -347,6 +370,7 @@ class _$ProfileCompanyCopyWithImpl<$Res, $Val extends ProfileCompany>
 
   // ignore: unused_field
   final $Val _value;
+
   // ignore: unused_field
   final $Res Function($Val) _then;
 
@@ -382,6 +406,7 @@ abstract class _$$ProfileCompanyImplCopyWith<$Res>
   factory _$$ProfileCompanyImplCopyWith(_$ProfileCompanyImpl value,
           $Res Function(_$ProfileCompanyImpl) then) =
       __$$ProfileCompanyImplCopyWithImpl<$Res>;
+
   @override
   @useResult
   $Res call({String name, String catchPhrase, String bs});
@@ -469,12 +494,15 @@ abstract class _ProfileCompany extends ProfileCompany {
       {required final String name,
       required final String catchPhrase,
       required final String bs}) = _$ProfileCompanyImpl;
+
   const _ProfileCompany._() : super._();
 
   @override
   String get name;
+
   @override
   String get catchPhrase;
+
   @override
   String get bs;
 
@@ -489,8 +517,11 @@ abstract class _ProfileCompany extends ProfileCompany {
 /// @nodoc
 mixin _$ProfileAddress {
   String get street => throw _privateConstructorUsedError;
+
   String get suite => throw _privateConstructorUsedError;
+
   String get city => throw _privateConstructorUsedError;
+
   String get zipcode => throw _privateConstructorUsedError;
 
   /// Create a copy of ProfileAddress
@@ -505,6 +536,7 @@ abstract class $ProfileAddressCopyWith<$Res> {
   factory $ProfileAddressCopyWith(
           ProfileAddress value, $Res Function(ProfileAddress) then) =
       _$ProfileAddressCopyWithImpl<$Res, ProfileAddress>;
+
   @useResult
   $Res call({String street, String suite, String city, String zipcode});
 }
@@ -516,6 +548,7 @@ class _$ProfileAddressCopyWithImpl<$Res, $Val extends ProfileAddress>
 
   // ignore: unused_field
   final $Val _value;
+
   // ignore: unused_field
   final $Res Function($Val) _then;
 
@@ -556,6 +589,7 @@ abstract class _$$ProfileAddressImplCopyWith<$Res>
   factory _$$ProfileAddressImplCopyWith(_$ProfileAddressImpl value,
           $Res Function(_$ProfileAddressImpl) then) =
       __$$ProfileAddressImplCopyWithImpl<$Res>;
+
   @override
   @useResult
   $Res call({String street, String suite, String city, String zipcode});
@@ -654,14 +688,18 @@ abstract class _ProfileAddress extends ProfileAddress {
       required final String suite,
       required final String city,
       required final String zipcode}) = _$ProfileAddressImpl;
+
   const _ProfileAddress._() : super._();
 
   @override
   String get street;
+
   @override
   String get suite;
+
   @override
   String get city;
+
   @override
   String get zipcode;
 
@@ -676,6 +714,7 @@ abstract class _ProfileAddress extends ProfileAddress {
 /// @nodoc
 mixin _$Geo {
   String get lat => throw _privateConstructorUsedError;
+
   String get lng => throw _privateConstructorUsedError;
 
   /// Create a copy of Geo
@@ -688,6 +727,7 @@ mixin _$Geo {
 abstract class $GeoCopyWith<$Res> {
   factory $GeoCopyWith(Geo value, $Res Function(Geo) then) =
       _$GeoCopyWithImpl<$Res, Geo>;
+
   @useResult
   $Res call({String lat, String lng});
 }
@@ -698,6 +738,7 @@ class _$GeoCopyWithImpl<$Res, $Val extends Geo> implements $GeoCopyWith<$Res> {
 
   // ignore: unused_field
   final $Val _value;
+
   // ignore: unused_field
   final $Res Function($Val) _then;
 
@@ -726,6 +767,7 @@ class _$GeoCopyWithImpl<$Res, $Val extends Geo> implements $GeoCopyWith<$Res> {
 abstract class _$$GeoImplCopyWith<$Res> implements $GeoCopyWith<$Res> {
   factory _$$GeoImplCopyWith(_$GeoImpl value, $Res Function(_$GeoImpl) then) =
       __$$GeoImplCopyWithImpl<$Res>;
+
   @override
   @useResult
   $Res call({String lat, String lng});
@@ -797,10 +839,12 @@ class _$GeoImpl extends _Geo {
 abstract class _Geo extends Geo {
   const factory _Geo({required final String lat, required final String lng}) =
       _$GeoImpl;
+
   const _Geo._() : super._();
 
   @override
   String get lat;
+
   @override
   String get lng;
 

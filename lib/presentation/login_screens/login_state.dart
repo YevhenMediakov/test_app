@@ -7,24 +7,23 @@ part 'login_state.freezed.dart';
 class LoginState with _$LoginState {
   const LoginState._();
 
-  const factory LoginState({
-    required String email,
-    required String password,
-    required bool? isEmailValid,
-    required bool isPasswordObscureText,
-    required bool? isPasswordValid,
-    required bool isCheckboxValid,
-    required bool isLogInComplete,
-    required Exception? exception,
-    required bool isLoading
-  }) = _LoginState;
+  const factory LoginState(
+      {required String email,
+      required String password,
+      required bool isEmailValid,
+      required bool isPasswordObscureText,
+      required bool isPasswordValid,
+      required bool isCheckboxValid,
+      required bool isLogInComplete,
+      required Exception? exception,
+      required bool isLoading}) = _LoginState;
 
   factory LoginState.initial() {
     return const LoginState(
       email: '',
       password: '',
-      isEmailValid: null,
-      isPasswordValid: null,
+      isEmailValid: true,
+      isPasswordValid: true,
       isCheckboxValid: false,
       isPasswordObscureText: true,
       exception: null,

@@ -73,7 +73,6 @@ class AppTextField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     return TextField(
       controller: controller,
       focusNode: focusNode,
@@ -119,7 +118,10 @@ class AppTextField extends StatelessWidget {
           color: AppColors.black_26,
           fontWeight: FontWeight.w400,
         ),
-        counter: showCounter ? _CounterText(currentLength: controller.text.length, maxLength: maxLength) : null,
+        counter: showCounter
+            ? _CounterText(
+                currentLength: controller.text.length, maxLength: maxLength)
+            : null,
         contentPadding: const EdgeInsets.fromLTRB(16, 12, 16, 12),
         filled: true,
         fillColor: backgroundColor,
@@ -127,16 +129,28 @@ class AppTextField extends StatelessWidget {
         isDense: true,
         errorText: errorText,
         errorMaxLines: 5,
-        errorStyle: const TextStyle(color: AppColors.red, fontSize: 12, fontWeight: FontWeight.w400),
+        errorStyle: const TextStyle(
+            color: AppColors.red, fontSize: 12, fontWeight: FontWeight.w400),
         helperText: helperText,
         helperMaxLines: 5,
-        helperStyle: const TextStyle(color: AppColors.black_26, fontSize: 12, fontWeight: FontWeight.w400),
-        border: forceErrorBorder ? const _OutlineInputBorder.error() : const _OutlineInputBorder.idle(),
+        helperStyle: const TextStyle(
+            color: AppColors.black_26,
+            fontSize: 12,
+            fontWeight: FontWeight.w400),
+        border: forceErrorBorder
+            ? const _OutlineInputBorder.error()
+            : const _OutlineInputBorder.idle(),
         errorBorder: const _OutlineInputBorder.error(),
         focusedErrorBorder: const _OutlineInputBorder.error(),
-        focusedBorder: forceErrorBorder ? const _OutlineInputBorder.error() : const _OutlineInputBorder.focused(),
-        enabledBorder: forceErrorBorder ? const _OutlineInputBorder.error() : const _OutlineInputBorder.idle(),
-        disabledBorder: forceErrorBorder ? const _OutlineInputBorder.error() : const _OutlineInputBorder.idle(),
+        focusedBorder: forceErrorBorder
+            ? const _OutlineInputBorder.error()
+            : const _OutlineInputBorder.focused(),
+        enabledBorder: forceErrorBorder
+            ? const _OutlineInputBorder.error()
+            : const _OutlineInputBorder.idle(),
+        disabledBorder: forceErrorBorder
+            ? const _OutlineInputBorder.error()
+            : const _OutlineInputBorder.idle(),
         prefixText: prefixText,
         prefixStyle: style,
         prefixIcon: prefixIcon,
@@ -149,21 +163,24 @@ class AppTextField extends StatelessWidget {
 class _OutlineInputBorder extends OutlineInputBorder {
   const _OutlineInputBorder.idle()
       : super(
-    borderRadius: const BorderRadius.all(Radius.circular(AppTextField.cornersRadius)),
-    borderSide: const BorderSide(color: AppColors.black_26, width: 1),
-  );
+          borderRadius: const BorderRadius.all(
+              Radius.circular(AppTextField.cornersRadius)),
+          borderSide: const BorderSide(color: AppColors.black_26, width: 1),
+        );
 
   const _OutlineInputBorder.focused()
       : super(
-    borderRadius: const BorderRadius.all(Radius.circular(AppTextField.cornersRadius)),
-    borderSide: const BorderSide(color: AppColors.black_38, width: 2),
-  );
+          borderRadius: const BorderRadius.all(
+              Radius.circular(AppTextField.cornersRadius)),
+          borderSide: const BorderSide(color: AppColors.black_38, width: 2),
+        );
 
   const _OutlineInputBorder.error()
       : super(
-    borderRadius: const BorderRadius.all(Radius.circular(AppTextField.cornersRadius)),
-    borderSide: const BorderSide(color: AppColors.red, width: 1.0),
-  );
+          borderRadius: const BorderRadius.all(
+              Radius.circular(AppTextField.cornersRadius)),
+          borderSide: const BorderSide(color: AppColors.red, width: 1.0),
+        );
 }
 
 class _CounterText extends StatelessWidget {

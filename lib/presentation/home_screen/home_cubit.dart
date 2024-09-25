@@ -1,9 +1,29 @@
-// import 'package:bloc/bloc.dart';
-// import 'package:freezed_annotation/freezed_annotation.dart';
-//
-// part 'home_state.dart';
-// part 'home_cubit.freezed.dart';
-//
-// class HomeCubit extends Cubit<HomeState> {
-//   HomeCubit() : super(const HomeState.initial());
-// }
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:test_prj/domain/repository/local_storage_repository.dart';
+import 'package:test_prj/domain/repository/profile_data_repository.dart';
+import 'package:test_prj/presentation/home_screen/home_state.dart';
+
+class HomeCubit extends Cubit<HomeState> {
+  final LocalStorageRepository _localStorageRepository;
+  final ProfileDataRepository _profileDataRepository;
+
+  HomeCubit({
+    required final profileDataRepository,
+    required final localStorageRepository,
+  })  : _localStorageRepository = localStorageRepository,
+        _profileDataRepository = profileDataRepository,
+        super(HomeState.initial()) {
+    _initial();
+  }
+
+  void _initial() async {
+    final data = await _profileDataRepository.getData();
+    emit(state.copyWith(isLoading: false, data: data));
+  }
+
+  void logOut() async {
+    await _localStorageRepository.removeToken();
+    emit(state.copyWith(hasRemovedToken: true));
+    print(state);
+  }
+}

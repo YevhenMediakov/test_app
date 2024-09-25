@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:test_prj/domain/repository/local_storage_repository.dart';
 import 'package:test_prj/domain/repository/login_repository.dart';
@@ -8,10 +9,12 @@ import 'package:test_prj/presentation/login_screens/login_state.dart';
 class LoginCubit extends Cubit<LoginState> {
   final EmailValidator _emailValidator;
   final PasswordValidator _passwordValidator;
-  final LoginRepository
-      _loginRepository; // todo replace uses cases with repository
-  final LocalStorageRepository
-      _localStorageRepository; // todo remove one time used use cases// todo remove one time used use cases
+  final LoginRepository _loginRepository;
+  final LocalStorageRepository _localStorageRepository;
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+
+  // text ed contr
 
   LoginCubit({
     required final emailValidator,
@@ -24,31 +27,43 @@ class LoginCubit extends Cubit<LoginState> {
         _loginRepository = loginRepository,
         super(LoginState.initial()) {
     _initial();
+    _addListeners();
   }
 
-  _initial() async {
+  void _initial() async {
     emit(state.copyWith(isLoading: true));
-    bool isTokenSaved = await _localStorageRepository.loadToken();
-    if (isTokenSaved) {
-      emit(state.copyWith(isLogInComplete: isTokenSaved, isLoading: false));
+    try {
+      bool isTokenSaved = await _localStorageRepository.loadToken();
+      if (isTokenSaved) {
+        emit(state.copyWith(isLogInComplete: isTokenSaved, isLoading: false));
+      }
+    } finally {
+      emit(state.copyWith(isLoading: false));
     }
-    emit(state.copyWith(isLoading: false));
   }
 
-  updateEmail(String email) {
+  void _addListeners() {
+    emailController.addListener(() {
+      updateEmail(emailController.text);
+    });
+    passwordController.addListener(() {
+      updatePassword(passwordController.text);
+    });
+  }
+
+  void updateEmail(String email) {
     emit(state.copyWith(email: email, isEmailValid: true));
   }
 
-  changePasswordVisibility() {
-    emit(state.copyWith(
-        isPasswordObscureText: !state.isPasswordObscureText));
+  void changePasswordVisibility() {
+    emit(state.copyWith(isPasswordObscureText: !state.isPasswordObscureText));
   }
 
-  changeCheckbox() {
+  void changeCheckbox() {
     emit(state.copyWith(isCheckboxValid: !state.isCheckboxValid));
   }
 
-  updatePassword(String password) {
+  void updatePassword(String password) {
     emit(state.copyWith(password: password, isPasswordValid: true));
   }
 
@@ -60,9 +75,13 @@ class LoginCubit extends Cubit<LoginState> {
     return emailValid && passwordValid == true;
   }
 
-  loginUser() async {
+  void loginUser() async {
+    if (!_validateFields()) {
+      return;
+    }
+
     emit(state.copyWith(isLoading: true));
-    if (_validateFields()) {
+    try {
       final token = await _loginRepository.loginUser(
         email: state.email,
         password: state.password,
@@ -75,10 +94,8 @@ class LoginCubit extends Cubit<LoginState> {
         );
       }
       emit(state.copyWith(isLogInComplete: true, isLoading: false));
-    } else {
-      Future.delayed(const Duration(seconds: 2)).then((_) {
-        emit(state.copyWith(isLoading: false));
-      });
+    } finally {
+      emit(state.copyWith(isLoading: false));
     }
   }
 }

@@ -6,8 +6,8 @@ part of 'profile_remote.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-ProfilerRemote _$ProfilerRemoteFromJson(Map<String, dynamic> json) =>
-    ProfilerRemote(
+ProfileRemote _$ProfileRemoteFromJson(Map<String, dynamic> json) =>
+    ProfileRemote(
       id: (json['id'] as num).toInt(),
       name: json['name'] as String,
       username: json['username'] as String,
@@ -20,7 +20,7 @@ ProfilerRemote _$ProfilerRemoteFromJson(Map<String, dynamic> json) =>
           json['company'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$ProfilerRemoteToJson(ProfilerRemote instance) =>
+Map<String, dynamic> _$ProfileRemoteToJson(ProfileRemote instance) =>
     <String, dynamic>{
       'id': instance.id,
       'name': instance.name,
