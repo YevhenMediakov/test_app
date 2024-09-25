@@ -36,31 +36,31 @@ class TestApp extends StatelessWidget {
           create: (context) => LoginRepositoryImpl(),
         ),
       ],
-      child: GlobalLoaderOverlay(
-        overlayColor: AppColors.black_26,
-        child: AnnotatedRegion<SystemUiOverlayStyle>(
-          value: SystemUiOverlayStyle.dark.copyWith(
-            systemNavigationBarDividerColor: Colors.transparent,
-            systemNavigationBarIconBrightness: Brightness.dark,
-          ),
-          child: OverlaySupport.global(
-            child: MaterialApp(
-              title: "Test App",
-              debugShowCheckedModeBanner: false,
-              localizationsDelegates: const [
-                AppLocalizations.delegate,
-                GlobalMaterialLocalizations.delegate,
-                GlobalCupertinoLocalizations.delegate,
-                GlobalWidgetsLocalizations.delegate,
-              ],
-              home: Builder(
-                builder: (context) {
-                  return const LogInScreen();
-                },
+      child: Builder(
+        builder: (context) {
+          return GlobalLoaderOverlay(
+            overlayColor: AppColors.black_26,
+            child: AnnotatedRegion<SystemUiOverlayStyle>(
+              value: SystemUiOverlayStyle.dark.copyWith(
+                systemNavigationBarDividerColor: Colors.transparent,
+                systemNavigationBarIconBrightness: Brightness.dark,
+              ),
+              child: const OverlaySupport.global(
+                child: MaterialApp(
+                  title: "Test App",
+                  debugShowCheckedModeBanner: false,
+                  localizationsDelegates: [
+                    AppLocalizations.delegate,
+                    GlobalMaterialLocalizations.delegate,
+                    GlobalCupertinoLocalizations.delegate,
+                    GlobalWidgetsLocalizations.delegate,
+                  ],
+                  home: LogInScreen(),
+                ),
               ),
             ),
-          ),
-        ),
+          );
+        }
       ),
     );
   }

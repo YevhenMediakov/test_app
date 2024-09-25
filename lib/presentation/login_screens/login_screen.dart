@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:test_prj/domain/repository/local_storage_repository.dart';
 import 'package:test_prj/domain/repository/login_repository.dart';
-import 'package:test_prj/domain/repository/profile_data_reposiyory.dart';
 import 'package:test_prj/domain/validators/email_validator.dart';
 import 'package:test_prj/domain/validators/password_validator.dart';
 import 'package:test_prj/presentation/components/extensions/build_context_extensions.dart';
@@ -35,15 +34,6 @@ class LogInScreenState extends State<LogInScreen> {
   Widget build(BuildContext context) {
     final _emailController = TextEditingController();
     final _passwordController = TextEditingController();
-
-    _emailController.addListener(() {
-      context.read<LoginCubit>().updateEmail(_emailController.text);
-    });
-
-    _passwordController.addListener(() {
-      context.read<LoginCubit>().updatePassword(_passwordController.text);
-    });
-
     return BlocProvider(
         create: (context) => LoginCubit(
             localStorageRepository: context.read<LocalStorageRepository>(),
@@ -54,18 +44,26 @@ class LogInScreenState extends State<LogInScreen> {
           return BlocConsumer(
               bloc: context.read<LoginCubit>(),
               listener: (context, state) {
-                if (context.watch().isLogInComplete) {
+                if (context.read<LoginCubit>().state.isLogInComplete) {
                   openHomeScreen();
                 }
-                if (context.watch().isLoading) {
+                if (context.read<LoginCubit>().state.isLoading) {
                   context.showLoading();
                 } else {
                   context.hideLoading();
                 }
               },
-              builder: (context, state) => Scaffold(
+              builder: (context, state) {
+              _emailController.addListener(() {
+            context.read<LoginCubit>().updateEmail(_emailController.text);
+          });
+
+          _passwordController.addListener(() {
+          context.read<LoginCubit>().updatePassword(_passwordController.text);
+          });
+          return Scaffold(
                   resizeToAvoidBottomInset: false,
-                  backgroundColor: Colors.white,
+                  // backgroundColor: Colors.white,
                   body: SafeArea(
                     child: Center(
                       child: Padding(
@@ -80,9 +78,9 @@ class LogInScreenState extends State<LogInScreen> {
                               emailController: _emailController,
                               passwordController: _passwordController,
                               isPasswordObscureText: context
-                                      .watch<LoginCubit>()
-                                      .state
-                                      .isPasswordObscureText,
+                                  .watch<LoginCubit>()
+                                  .state
+                                  .isPasswordObscureText,
                               onPasswordObscureTextChange: context
                                   .read<LoginCubit>()
                                   .changePasswordVisibility,
@@ -120,18 +118,12 @@ class LogInScreenState extends State<LogInScreen> {
                               onPressed: context.read<LoginCubit>().loginUser,
                               child: Text(context.strings.loginScreenButton),
                             ),
-                            TextButton(
-                              onPressed: (){
-                                ProfileDataRepositoryImpl().getData();
-                              },
-                              child: Text(context.strings.loginScreenButton),
-                            ),
                             const Spacer(),
                           ],
                         ),
                       ),
                     ),
-                  )));
+                  ));});
         }));
   }
 
