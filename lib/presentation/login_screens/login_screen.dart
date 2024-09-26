@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:loader_overlay/loader_overlay.dart';
-import 'package:test_prj/domain/repository/local_storage_repository.dart';
-import 'package:test_prj/domain/repository/login_repository.dart';
-import 'package:test_prj/domain/validators/email_validator.dart';
-import 'package:test_prj/domain/validators/password_validator.dart';
 import 'package:test_prj/presentation/components/extensions/build_context_extensions.dart';
 import 'package:test_prj/presentation/components/text_field/app_text_field.dart';
 import 'package:test_prj/presentation/components/text_field/show_password_button.dart';
 import 'package:test_prj/presentation/home_screen/home_screen.dart';
 import 'package:test_prj/presentation/login_screens/login_state.dart';
+import 'package:test_prj/repository/local_storage_repository.dart';
+import 'package:test_prj/repository/login_repository.dart';
 import 'package:test_prj/resources/app_text_styles.dart';
+import 'package:test_prj/validators/email_validator.dart';
+import 'package:test_prj/validators/password_validator.dart';
 
 import 'login_cubit.dart';
 

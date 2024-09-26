@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
-import 'package:test_prj/data/model/profile_remote.dart';
-import 'package:test_prj/domain/model/profile.dart';
+import 'package:test_prj/models/profile.dart';
+import 'package:test_prj/models/profile_remote.dart';
 
 interface class ProfileDataRepository {
   final dio = Dio();

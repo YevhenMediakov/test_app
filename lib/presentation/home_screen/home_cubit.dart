@@ -1,7 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:test_prj/domain/repository/local_storage_repository.dart';
-import 'package:test_prj/domain/repository/profile_data_repository.dart';
 import 'package:test_prj/presentation/home_screen/home_state.dart';
+import 'package:test_prj/repository/local_storage_repository.dart';
+import 'package:test_prj/repository/profile_data_repository.dart';
 
 class HomeCubit extends Cubit<HomeState> {
   final LocalStorageRepository _localStorageRepository;

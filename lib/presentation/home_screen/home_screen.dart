@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:test_prj/domain/model/profile.dart';
-import 'package:test_prj/domain/repository/local_storage_repository.dart';
-import 'package:test_prj/domain/repository/profile_data_repository.dart';
+import 'package:test_prj/models/profile.dart';
 import 'package:test_prj/presentation/components/extensions/build_context_extensions.dart';
 import 'package:test_prj/presentation/home_screen/home_cubit.dart';
 import 'package:test_prj/presentation/home_screen/home_state.dart';
 import 'package:test_prj/presentation/home_screen/profile_screen/profile_screen.dart';
 import 'package:test_prj/presentation/login_screens/login_screen.dart';
+import 'package:test_prj/repository/local_storage_repository.dart';
+import 'package:test_prj/repository/profile_data_repository.dart';
 import 'package:test_prj/resources/app_colors.dart';
 import 'package:test_prj/resources/app_text_styles.dart';
 

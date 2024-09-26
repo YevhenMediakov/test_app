@@ -1,5 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:test_prj/domain/model/profile.dart';
+import 'package:test_prj/models/profile.dart';
 
 part 'home_state.freezed.dart';
 

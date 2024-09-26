@@ -1,10 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:test_prj/domain/repository/local_storage_repository.dart';
-import 'package:test_prj/domain/repository/login_repository.dart';
-import 'package:test_prj/domain/validators/email_validator.dart';
-import 'package:test_prj/domain/validators/password_validator.dart';
 import 'package:test_prj/presentation/login_screens/login_state.dart';
+import 'package:test_prj/repository/local_storage_repository.dart';
+import 'package:test_prj/repository/login_repository.dart';
+import 'package:test_prj/validators/email_validator.dart';
+import 'package:test_prj/validators/password_validator.dart';
 
 class LoginCubit extends Cubit<LoginState> {
   final EmailValidator _emailValidator;

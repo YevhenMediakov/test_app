@@ -1,5 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
-import 'package:test_prj/domain/model/profile.dart';
+import 'package:test_prj/models/profile.dart';
 
 part 'profile_remote.g.dart';
 

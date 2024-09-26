@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:test_prj/domain/model/profile.dart';
+import 'package:test_prj/models/profile.dart';
 import 'package:test_prj/presentation/components/extensions/build_context_extensions.dart';
 import 'package:test_prj/resources/app_text_styles.dart';
 
