@@ -45,6 +45,7 @@ class LogInScreen extends StatelessWidget {
   Widget buildScaffold(BuildContext context) {
     final bloc = context.watch<LoginCubit>();
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: Center(
         child: Padding(
           padding: const EdgeInsets.fromLTRB(16, 24, 16, 16),

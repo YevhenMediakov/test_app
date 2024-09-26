@@ -16,72 +16,75 @@ class ProfileScreen extends StatelessWidget {
         context.strings.profileScreenAppBapTitle,
         style: AppTextStyles.h1,
       )),
-      body: Column(
-        children: [
-          _DataBox(
-            title: context.strings.profileScreenGeneralInfoTitle,
-            children: [
-              _InfoRow(
-                title: context.strings.profileScreenGeneralInfoName,
-                data: profile.name,
-              ),
-              _InfoRow(
-                title: context.strings.profileScreenGeneralInfoPhone,
-                data: profile.phone,
-              ),
-              _InfoRow(
-                title: context.strings.profileScreenGeneralInfoEmail,
-                data: profile.email,
-              ),
-              _InfoRow(
-                title: context.strings.profileScreenGeneralInfoUsername,
-                data: profile.username,
-              ),
-              _InfoRow(
-                title: context.strings.profileScreenGeneralInfoWebsite,
-                data: profile.website,
-              ),
-            ],
-          ),
-          _DataBox(
-            title: context.strings.profileScreenLocationInfoTitle,
-            children: [
-              _InfoRow(
-                title: context.strings.profileScreenLocationInfoCity,
-                data: profile.address.city,
-              ),
-              _InfoRow(
-                title: context.strings.profileScreenLocationInfoAddress,
-                data: profile.address.street,
-              ),
-              _InfoRow(
-                title: context.strings.profileScreenLocationInfoSuite,
-                data: profile.address.suite,
-              ),
-              _InfoRow(
-                title: context.strings.profileScreenLocationInfoZip,
-                data: profile.address.zipcode,
-              ),
-            ],
-          ),
-          _DataBox(
-            title: context.strings.profileScreenCompanyInfoTitle,
-            children: [
-              _InfoRow(
-                title: context.strings.profileScreenCompanyInfoName,
-                data: profile.company.name,
-              ),
-              _InfoRow(
-                title: context.strings.profileScreenCompanyInfoCatch,
-                data: profile.company.catchPhrase,
-              ),
-              _InfoRow(
-                title: context.strings.profileScreenCompanyInfoBS,
-                data: profile.company.bs,
-              ),
-            ],
-          )
-        ],
+      body: SingleChildScrollView(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            _DataBox(
+              title: context.strings.profileScreenGeneralInfoTitle,
+              children: [
+                _InfoRow(
+                  title: context.strings.profileScreenGeneralInfoName,
+                  data: profile.name,
+                ),
+                _InfoRow(
+                  title: context.strings.profileScreenGeneralInfoPhone,
+                  data: profile.phone,
+                ),
+                _InfoRow(
+                  title: context.strings.profileScreenGeneralInfoEmail,
+                  data: profile.email,
+                ),
+                _InfoRow(
+                  title: context.strings.profileScreenGeneralInfoUsername,
+                  data: profile.username,
+                ),
+                _InfoRow(
+                  title: context.strings.profileScreenGeneralInfoWebsite,
+                  data: profile.website,
+                ),
+              ],
+            ),
+            _DataBox(
+              title: context.strings.profileScreenLocationInfoTitle,
+              children: [
+                _InfoRow(
+                  title: context.strings.profileScreenLocationInfoCity,
+                  data: profile.address.city,
+                ),
+                _InfoRow(
+                  title: context.strings.profileScreenLocationInfoAddress,
+                  data: profile.address.street,
+                ),
+                _InfoRow(
+                  title: context.strings.profileScreenLocationInfoSuite,
+                  data: profile.address.suite,
+                ),
+                _InfoRow(
+                  title: context.strings.profileScreenLocationInfoZip,
+                  data: profile.address.zipcode,
+                ),
+              ],
+            ),
+            _DataBox(
+              title: context.strings.profileScreenCompanyInfoTitle,
+              children: [
+                _InfoRow(
+                  title: context.strings.profileScreenCompanyInfoName,
+                  data: profile.company.name,
+                ),
+                _InfoRow(
+                  title: context.strings.profileScreenCompanyInfoCatch,
+                  data: profile.company.catchPhrase,
+                ),
+                _InfoRow(
+                  title: context.strings.profileScreenCompanyInfoBS,
+                  data: profile.company.bs,
+                ),
+              ],
+            )
+          ],
+        ),
       ),
     );
   }
