@@ -17,7 +17,9 @@ final _privateConstructorUsedError = UnsupportedError(
 /// @nodoc
 mixin _$HomeState {
   List<ProfileData> get data => throw _privateConstructorUsedError;
+
   bool get hasRemovedToken => throw _privateConstructorUsedError;
+
   bool get exception => throw _privateConstructorUsedError;
 
   /// Create a copy of HomeState
@@ -31,6 +33,7 @@ mixin _$HomeState {
 abstract class $HomeStateCopyWith<$Res> {
   factory $HomeStateCopyWith(HomeState value, $Res Function(HomeState) then) =
       _$HomeStateCopyWithImpl<$Res, HomeState>;
+
   @useResult
   $Res call({List<ProfileData> data, bool hasRemovedToken, bool exception});
 }
@@ -42,6 +45,7 @@ class _$HomeStateCopyWithImpl<$Res, $Val extends HomeState>
 
   // ignore: unused_field
   final $Val _value;
+
   // ignore: unused_field
   final $Res Function($Val) _then;
 
@@ -77,6 +81,7 @@ abstract class _$$HomeStateImplCopyWith<$Res>
   factory _$$HomeStateImplCopyWith(
           _$HomeStateImpl value, $Res Function(_$HomeStateImpl) then) =
       __$$HomeStateImplCopyWithImpl<$Res>;
+
   @override
   @useResult
   $Res call({List<ProfileData> data, bool hasRemovedToken, bool exception});
@@ -127,6 +132,7 @@ class _$HomeStateImpl extends _HomeState {
         super._();
 
   final List<ProfileData> _data;
+
   @override
   List<ProfileData> get data {
     if (_data is EqualUnmodifiableListView) return _data;
@@ -174,12 +180,15 @@ abstract class _HomeState extends HomeState {
       {required final List<ProfileData> data,
       required final bool hasRemovedToken,
       required final bool exception}) = _$HomeStateImpl;
+
   const _HomeState._() : super._();
 
   @override
   List<ProfileData> get data;
+
   @override
   bool get hasRemovedToken;
+
   @override
   bool get exception;
 

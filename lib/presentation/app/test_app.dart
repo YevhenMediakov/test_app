@@ -1,20 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:test_prj/data/repository/local_storage_repository_impl.dart';
-import 'package:test_prj/data/repository/login_repository_impl.dart';
-import 'package:test_prj/data/validators/email_validator.dart';
-import 'package:test_prj/data/validators/password_validator.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:loader_overlay/loader_overlay.dart';
+import 'package:overlay_support/overlay_support.dart';
 import 'package:test_prj/domain/repository/local_storage_repository.dart';
 import 'package:test_prj/domain/repository/login_repository.dart';
 import 'package:test_prj/domain/repository/profile_data_repository.dart';
 import 'package:test_prj/domain/validators/email_validator.dart';
 import 'package:test_prj/domain/validators/password_validator.dart';
 import 'package:test_prj/presentation/login_screens/login_screen.dart';
-import 'package:loader_overlay/loader_overlay.dart';
-import 'package:overlay_support/overlay_support.dart';
 import 'package:test_prj/resources/app_colors.dart';
 
 class TestApp extends StatelessWidget {
@@ -25,19 +21,19 @@ class TestApp extends StatelessWidget {
     return MultiRepositoryProvider(
       providers: [
         RepositoryProvider<LocalStorageRepository>(
-          create: (context) => LocalStorageRepositoryImpl(),
+          create: (context) => LocalStorageRepository(),
         ),
         RepositoryProvider<EmailValidator>(
-          create: (context) => EmailValidatorImpl(),
+          create: (context) => EmailValidator(),
         ),
         RepositoryProvider<PasswordValidator>(
-          create: (context) => PasswordValidatorImpl(),
+          create: (context) => PasswordValidator(),
         ),
         RepositoryProvider<LoginRepository>(
-          create: (context) => LoginRepositoryImpl(),
+          create: (context) => LoginRepository(),
         ),
         RepositoryProvider<ProfileDataRepository>(
-          create: (context) => ProfileDataRepositoryImpl(),
+          create: (context) => ProfileDataRepository(),
         )
       ],
       child: Builder(builder: (context) {

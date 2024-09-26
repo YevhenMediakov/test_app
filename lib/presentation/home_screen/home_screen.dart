@@ -8,7 +8,6 @@ import 'package:test_prj/presentation/home_screen/home_cubit.dart';
 import 'package:test_prj/presentation/home_screen/home_state.dart';
 import 'package:test_prj/presentation/home_screen/profile_screen/profile_screen.dart';
 import 'package:test_prj/presentation/login_screens/login_screen.dart';
-
 import 'package:test_prj/resources/app_colors.dart';
 import 'package:test_prj/resources/app_text_styles.dart';
 
