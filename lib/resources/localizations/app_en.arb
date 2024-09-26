@@ -1,0 +1,98 @@
+{
+  "unexpectedError": "Something went wrong. Please, check your internet connection and try again later",
+  "@unexpectedError": {
+    "type": "text"
+  },
+  "noInternetConnectionError": "There is no Internet connection. Please, try again later",
+  "@noInternetConnectionError": {
+    "type": "text"
+  },
+  "loginScreenEmail": "Email",
+  "@loginScreenEmail": {
+    "type": "text"
+  },
+  "loginScreenPassword": "Password",
+  "@loginScreenPassword": {
+    "type": "text"
+  },
+  "loginScreenTitle": "Login screen",
+  "@loginScreenTitle": {
+    "type": "text"
+  },
+  "loginScreenCheckBox": "Stay in profile",
+  "@loginScreenCheckBox": {
+    "type": "text"
+  },
+  "loginScreenButton": "Login",
+  "@loginScreenButton": {
+    "type": "text"
+  },
+  "homeScreenAppBapTitle": "Home Screen",
+  "@homeScreenAppBapTitle": {
+    "type": "text"
+  },
+  "profileScreenAppBapTitle": "Profile Screen",
+  "@profileScreenAppBapTitle": {
+    "type": "text"
+  },
+  "profileScreenGeneralInfoTitle": "General info",
+  "@profileScreenGeneralInfoTitle": {
+    "type": "text"
+  },
+  "profileScreenLocationInfoTitle": "Location info",
+  "@profileScreenLocationInfoTitle": {
+    "type": "text"
+  },
+  "profileScreenCompanyInfoTitle": "Company info",
+  "@profileScreenCompanyInfoTitle": {
+    "type": "text"
+  },
+  "profileScreenGeneralInfoName": "Name",
+  "@profileScreenGeneralInfoName": {
+    "type": "text"
+  },
+  "profileScreenGeneralInfoPhone": "Phone",
+  "@profileScreenGeneralInfoPhone": {
+    "type": "text"
+  },
+  "profileScreenGeneralInfoEmail": "Email",
+  "@profileScreenGeneralInfoEmail": {
+    "type": "text"
+  },
+  "profileScreenGeneralInfoUsername": "User name",
+  "@profileScreenGeneralInfoUsername": {
+    "type": "text"
+  },
+  "profileScreenGeneralInfoWebsite": "Website",
+  "@profileScreenGeneralInfoWebsite": {
+    "type": "text"
+  },
+  "profileScreenLocationInfoCity": "City",
+  "@profileScreenLocationInfoCity": {
+    "type": "text"
+  },
+  "profileScreenLocationInfoAddress": "Address",
+  "@profileScreenLocationInfoAddress": {
+    "type": "text"
+  },
+  "profileScreenLocationInfoSuite": "Suite",
+  "@profileScreenLocationInfoSuite": {
+    "type": "text"
+  },
+  "profileScreenLocationInfoZip": "Zip Code",
+  "@profileScreenLocationInfoZip": {
+    "type": "text"
+  },
+  "profileScreenCompanyInfoName": "Name",
+  "@profileScreenCompanyInfoName": {
+    "type": "text"
+  },
+  "profileScreenCompanyInfoCatch": "Catch Phrase",
+  "@profileScreenCompanyInfoCatch": {
+    "type": "text"
+  },
+  "profileScreenCompanyInfoBS": "BS",
+  "@profileScreenCompanyInfoBS": {
+    "type": "text"
+  }
+}
