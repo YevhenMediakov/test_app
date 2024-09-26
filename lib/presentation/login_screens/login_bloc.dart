@@ -1,22 +1,22 @@
-import 'package:flutter/cupertino.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:bloc/bloc.dart';
+import 'package:flutter/material.dart';
 import 'package:test_prj/presentation/login_screens/login_state.dart';
 import 'package:test_prj/repository/local_storage_repository.dart';
 import 'package:test_prj/repository/login_repository.dart';
 import 'package:test_prj/validators/email_validator.dart';
 import 'package:test_prj/validators/password_validator.dart';
 
-class LoginCubit extends Cubit<LoginState> {
+part 'login_event.dart';
+
+class LoginBloc extends Bloc<LoginEvent, LoginState> {
   final EmailValidator _emailValidator;
   final PasswordValidator _passwordValidator;
   final LoginRepository _loginRepository;
   final LocalStorageRepository _localStorageRepository;
-  final TextEditingController emailController = TextEditingController();
-  final TextEditingController passwordController = TextEditingController();
+  final emailController = TextEditingController();
+  final passwordController = TextEditingController();
 
-  // text ed contr
-
-  LoginCubit({
+  LoginBloc({
     required final emailValidator,
     required final passwordValidator,
     required final loginRepository,
@@ -26,11 +26,38 @@ class LoginCubit extends Cubit<LoginState> {
         _localStorageRepository = localStorageRepository,
         _loginRepository = loginRepository,
         super(LoginState.initial()) {
-    _initial();
+    on<GetTokenEvent>((event, emit) async {
+      await _addToken(emit);
+    });
+    on<ChangePasswordVisibilityEvent>((event, emit) async {
+      await _changePasswordVisibility(emit);
+    });
+    on<ChangeSaveTokenEvent>((event, emit) async {
+      await _changeCheckbox(emit);
+    });
+    on<LogInUserEvent>((event, emit) async {
+      await _loginUser(emit);
+    });
+    on<UpdateEmail>((event, emit) async {
+      await _updateEmail(emit);
+    });
+    on<UpdatePassword>((event, emit) async {
+      await _updatePassword(emit);
+    });
+    add(GetTokenEvent());
     _addListeners();
   }
 
-  void _initial() async {
+  Future<void> _addListeners() async {
+    emailController.addListener(() async {
+      add(UpdateEmail());
+    });
+    passwordController.addListener(() async {
+      add(UpdatePassword());
+    });
+  }
+
+  Future<void> _addToken(Emitter<LoginState> emit) async {
     emit(state.copyWith(isLoading: true));
     try {
       bool isTokenSaved = await _localStorageRepository.loadToken();
@@ -42,32 +69,24 @@ class LoginCubit extends Cubit<LoginState> {
     }
   }
 
-  void _addListeners() {
-    emailController.addListener(() {
-      updateEmail(emailController.text);
-    });
-    passwordController.addListener(() {
-      updatePassword(passwordController.text);
-    });
+  Future<void> _updateEmail(Emitter<LoginState> emit) async {
+    emit(state.copyWith(email: emailController.text, isEmailValid: true));
   }
 
-  void updateEmail(String email) {
-    emit(state.copyWith(email: email, isEmailValid: true));
-  }
-
-  void changePasswordVisibility() {
+  Future<void> _changePasswordVisibility(Emitter<LoginState> emit) async {
     emit(state.copyWith(isPasswordObscureText: !state.isPasswordObscureText));
   }
 
-  void changeCheckbox() {
+  Future<void> _changeCheckbox(Emitter<LoginState> emit) async {
     emit(state.copyWith(isCheckboxValid: !state.isCheckboxValid));
   }
 
-  void updatePassword(String password) {
-    emit(state.copyWith(password: password, isPasswordValid: true));
+  Future<void> _updatePassword(Emitter<LoginState> emit) async {
+    emit(state.copyWith(
+        password: passwordController.text, isPasswordValid: true));
   }
 
-  bool _validateFields() {
+  Future<bool> _validateFields(Emitter<LoginState> emit) async {
     final emailValid = _emailValidator.validate(email: state.email);
     final passwordValid = _passwordValidator.validate(password: state.password);
     emit(state.copyWith(
@@ -75,8 +94,9 @@ class LoginCubit extends Cubit<LoginState> {
     return emailValid && passwordValid == true;
   }
 
-  void loginUser() async {
-    if (!_validateFields()) {
+  Future<void> _loginUser(Emitter<LoginState> emit) async {
+    final valid = await _validateFields(emit);
+    if (!valid) {
       return;
     }
 

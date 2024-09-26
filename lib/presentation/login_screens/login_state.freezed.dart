@@ -17,13 +17,21 @@ final _privateConstructorUsedError = UnsupportedError(
 /// @nodoc
 mixin _$LoginState {
   String get email => throw _privateConstructorUsedError;
+
   String get password => throw _privateConstructorUsedError;
+
   bool get isEmailValid => throw _privateConstructorUsedError;
+
   bool get isPasswordObscureText => throw _privateConstructorUsedError;
+
   bool get isPasswordValid => throw _privateConstructorUsedError;
+
   bool get isCheckboxValid => throw _privateConstructorUsedError;
+
   bool get isLogInComplete => throw _privateConstructorUsedError;
+
   Exception? get exception => throw _privateConstructorUsedError;
+
   bool get isLoading => throw _privateConstructorUsedError;
 
   /// Create a copy of LoginState
@@ -38,6 +46,7 @@ abstract class $LoginStateCopyWith<$Res> {
   factory $LoginStateCopyWith(
           LoginState value, $Res Function(LoginState) then) =
       _$LoginStateCopyWithImpl<$Res, LoginState>;
+
   @useResult
   $Res call(
       {String email,
@@ -58,6 +67,7 @@ class _$LoginStateCopyWithImpl<$Res, $Val extends LoginState>
 
   // ignore: unused_field
   final $Val _value;
+
   // ignore: unused_field
   final $Res Function($Val) _then;
 
@@ -123,6 +133,7 @@ abstract class _$$LoginStateImplCopyWith<$Res>
   factory _$$LoginStateImplCopyWith(
           _$LoginStateImpl value, $Res Function(_$LoginStateImpl) then) =
       __$$LoginStateImplCopyWithImpl<$Res>;
+
   @override
   @useResult
   $Res call(
@@ -313,24 +324,33 @@ abstract class _LoginState extends LoginState {
       required final bool isLogInComplete,
       required final Exception? exception,
       required final bool isLoading}) = _$LoginStateImpl;
+
   const _LoginState._() : super._();
 
   @override
   String get email;
+
   @override
   String get password;
+
   @override
   bool get isEmailValid;
+
   @override
   bool get isPasswordObscureText;
+
   @override
   bool get isPasswordValid;
+
   @override
   bool get isCheckboxValid;
+
   @override
   bool get isLogInComplete;
+
   @override
   Exception? get exception;
+
   @override
   bool get isLoading;
 

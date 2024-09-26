@@ -5,6 +5,7 @@ import 'package:test_prj/presentation/components/extensions/build_context_extens
 import 'package:test_prj/presentation/components/text_field/app_text_field.dart';
 import 'package:test_prj/presentation/components/text_field/show_password_button.dart';
 import 'package:test_prj/presentation/home_screen/home_screen.dart';
+import 'package:test_prj/presentation/login_screens/login_bloc.dart';
 import 'package:test_prj/presentation/login_screens/login_state.dart';
 import 'package:test_prj/repository/local_storage_repository.dart';
 import 'package:test_prj/repository/login_repository.dart';
@@ -12,26 +13,24 @@ import 'package:test_prj/resources/app_text_styles.dart';
 import 'package:test_prj/validators/email_validator.dart';
 import 'package:test_prj/validators/password_validator.dart';
 
-import 'login_cubit.dart';
-
 class LogInScreen extends StatelessWidget {
   const LogInScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => LoginCubit(
+      create: (context) => LoginBloc(
           localStorageRepository: context.read<LocalStorageRepository>(),
           loginRepository: context.read<LoginRepository>(),
           emailValidator: context.read<EmailValidator>(),
           passwordValidator: context.read<PasswordValidator>()),
       child: Builder(builder: (context) {
-        return BlocListener<LoginCubit, LoginState>(
+        return BlocListener<LoginBloc, LoginState>(
             listener: (context, state) {
-              if (context.read<LoginCubit>().state.isLogInComplete) {
+              if (context.read<LoginBloc>().state.isLogInComplete) {
                 openHomeScreen(context);
               }
-              if (context.read<LoginCubit>().state.isLoading) {
+              if (context.read<LoginBloc>().state.isLoading) {
                 context.loaderOverlay.show();
               } else {
                 context.loaderOverlay.hide();
@@ -43,7 +42,7 @@ class LogInScreen extends StatelessWidget {
   }
 
   Widget buildScaffold(BuildContext context) {
-    final bloc = context.watch<LoginCubit>();
+    final bloc = context.watch<LoginBloc>();
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.fromLTRB(16, 24, 16, 16),
@@ -72,14 +71,16 @@ class LogInScreen extends StatelessWidget {
                   Checkbox(
                       value: bloc.state.isCheckboxValid,
                       onChanged: (value) {
-                        bloc.changeCheckbox();
+                        bloc.add(ChangeSaveTokenEvent());
                       }),
                 ],
               ),
             ),
             SliverToBoxAdapter(
               child: TextButton(
-                onPressed: bloc.loginUser,
+                onPressed: () {
+                  bloc.add(LogInUserEvent());
+                },
                 child: Text(context.strings.loginScreenButton),
               ),
             ),
@@ -104,7 +105,7 @@ class _LoginTextFields extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final bloc = context.watch<LoginCubit>();
+    final bloc = context.watch<LoginBloc>();
     return Column(
       children: [
         const SizedBox(height: 36),
@@ -125,7 +126,9 @@ class _LoginTextFields extends StatelessWidget {
           forceErrorBorder: !bloc.state.isPasswordValid,
           suffixIcon: ShowPasswordButton(
             show: !bloc.state.isPasswordObscureText,
-            onTap: bloc.changePasswordVisibility,
+            onTap: () {
+              bloc.add(ChangePasswordVisibilityEvent());
+            },
           ),
         ),
         const SizedBox(height: 24),

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:test_prj/models/profile.dart';
 import 'package:test_prj/presentation/components/extensions/build_context_extensions.dart';
-import 'package:test_prj/presentation/home_screen/home_cubit.dart';
+import 'package:test_prj/presentation/home_screen/home_bloc.dart';
 import 'package:test_prj/presentation/home_screen/home_state.dart';
 import 'package:test_prj/presentation/home_screen/profile_screen/profile_screen.dart';
 import 'package:test_prj/presentation/login_screens/login_screen.dart';
@@ -17,12 +17,12 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => HomeCubit(
+      create: (context) => HomeBloc(
         profileDataRepository: context.read<ProfileDataRepository>(),
         localStorageRepository: context.read<LocalStorageRepository>(),
       ),
       child: Builder(builder: (context) {
-        return BlocListener<HomeCubit, HomeState>(
+        return BlocListener<HomeBloc, HomeState>(
             listener: (context, state) {
               if (state.hasRemovedToken) {
                 _logOut(context);
@@ -37,7 +37,7 @@ class HomeScreen extends StatelessWidget {
   }
 
   Widget buildScaffold(BuildContext context) {
-    final bloc = context.watch<HomeCubit>();
+    final bloc = context.watch<HomeBloc>();
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -47,13 +47,15 @@ class HomeScreen extends StatelessWidget {
         actions: [
           _ScreenAction(
             onPressed: () {
-              bloc.logOut();
+              bloc.add(LogOutEvent());
             },
           )
         ],
       ),
       body: RefreshIndicator(
-        onRefresh: () => bloc.getData(),
+        onRefresh: () async {
+          bloc.add(GetDataEvent());
+        },
         child: ListView.builder(
           itemCount: bloc.state.data.length,
           itemBuilder: (context, index) {
