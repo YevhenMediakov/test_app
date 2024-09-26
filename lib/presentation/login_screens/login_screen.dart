@@ -20,44 +20,51 @@ class LogInScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-        create: (context) => LoginCubit(
-            localStorageRepository: context.read<LocalStorageRepository>(),
-            loginRepository: context.read<LoginRepository>(),
-            emailValidator: context.read<EmailValidator>(),
-            passwordValidator: context.read<PasswordValidator>()),
-        child: Builder(builder: (context) {
-          return BlocListener<LoginCubit, LoginState>(
-              listener: (context, state) {
-                if (context.read<LoginCubit>().state.isLogInComplete) {
-                  openHomeScreen(context);
-                }
-                if (context.read<LoginCubit>().state.isLoading) {
-                  context.loaderOverlay.show();
-                } else {
-                  context.loaderOverlay.hide();
-                  ;
-                }
-              },
-              child: buildScaffold(context));
-        }));
+      create: (context) => LoginCubit(
+          localStorageRepository: context.read<LocalStorageRepository>(),
+          loginRepository: context.read<LoginRepository>(),
+          emailValidator: context.read<EmailValidator>(),
+          passwordValidator: context.read<PasswordValidator>()),
+      child: Builder(builder: (context) {
+        return BlocListener<LoginCubit, LoginState>(
+            listener: (context, state) {
+              if (context.read<LoginCubit>().state.isLogInComplete) {
+                openHomeScreen(context);
+              }
+              if (context.read<LoginCubit>().state.isLoading) {
+                context.loaderOverlay.show();
+              } else {
+                context.loaderOverlay.hide();
+              }
+            },
+            child: buildScaffold(context));
+      }),
+    );
   }
 
   Widget buildScaffold(BuildContext context) {
     final bloc = context.watch<LoginCubit>();
     return Scaffold(
-      resizeToAvoidBottomInset: false,
-      body: Center(
-        child: Padding(
-          padding: const EdgeInsets.fromLTRB(16, 24, 16, 16),
-          child: Column(
-            children: [
-              const SizedBox(height: 50),
-              Text(context.strings.loginScreenTitle,
-                  style: AppTextStyles.h1Bold),
-              const SizedBox(height: 24),
-              const _LoginTextFields(),
-              const SizedBox(height: 24),
-              Row(
+      body: Padding(
+        padding: const EdgeInsets.fromLTRB(16, 24, 16, 16),
+        child: CustomScrollView(
+          slivers: [
+            const SliverToBoxAdapter(
+              child: SizedBox(
+                height: 50,
+              ),
+            ),
+            SliverToBoxAdapter(
+              child: Center(
+                child: Text(context.strings.loginScreenTitle,
+                    style: AppTextStyles.h1Bold),
+              ),
+            ),
+            const SliverToBoxAdapter(child: SizedBox(height: 24)),
+            const SliverToBoxAdapter(child: _LoginTextFields()),
+            const SliverToBoxAdapter(child: SizedBox(height: 24)),
+            SliverToBoxAdapter(
+              child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(context.strings.loginScreenCheckBox,
@@ -69,14 +76,15 @@ class LogInScreen extends StatelessWidget {
                       }),
                 ],
               ),
-              const Spacer(),
-              TextButton(
+            ),
+            SliverToBoxAdapter(
+              child: TextButton(
                 onPressed: bloc.loginUser,
                 child: Text(context.strings.loginScreenButton),
               ),
-              const Spacer(),
-            ],
-          ),
+            ),
+            // const SliverFillRemaining(),
+          ],
         ),
       ),
     );

@@ -13,17 +13,21 @@ class HomeCubit extends Cubit<HomeState> {
   })  : _localStorageRepository = localStorageRepository,
         _profileDataRepository = profileDataRepository,
         super(HomeState.initial()) {
-    _initial();
+    getData();
   }
 
-  void _initial() async {
+  Future<void> getData() async {
     final data = await _profileDataRepository.getData();
-    emit(state.copyWith(isLoading: false, data: data));
+    if (data.isEmpty) {
+      emit(state.copyWith(exception: true));
+      emit(state.copyWith(exception: false));
+    } else {
+      emit(state.copyWith(data: data));
+    }
   }
 
   void logOut() async {
     await _localStorageRepository.removeToken();
     emit(state.copyWith(hasRemovedToken: true));
-    print(state);
   }
 }

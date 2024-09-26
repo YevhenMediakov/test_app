@@ -25,8 +25,11 @@ class HomeScreen extends StatelessWidget {
       child: Builder(builder: (context) {
         return BlocListener<HomeCubit, HomeState>(
             listener: (context, state) {
-              if (context.read<HomeCubit>().state.hasRemovedToken){
+              if (state.hasRemovedToken) {
                 _logOut(context);
+              }
+              if (state.exception) {
+                _showSnackBar(context);
               }
             },
             child: buildScaffold(context));
@@ -51,7 +54,7 @@ class HomeScreen extends StatelessWidget {
         ],
       ),
       body: RefreshIndicator(
-        onRefresh: _pullRefresh,
+        onRefresh: () => bloc.getData(),
         child: ListView.builder(
           itemCount: bloc.state.data.length,
           itemBuilder: (context, index) {
@@ -83,12 +86,18 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
-  Future<void> _pullRefresh() async {
-    await Future.delayed(const Duration(seconds: 2));
+  void _showSnackBar(BuildContext context) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(context.strings.unexpectedError),
+      ),
+    );
   }
 
-  void _openPersonalDataScreen(BuildContext context,
-      {required ProfileData profile}) {
+  void _openPersonalDataScreen(
+    BuildContext context, {
+    required ProfileData profile,
+  }) {
     Navigator.of(context).push(
       MaterialPageRoute(builder: (BuildContext context) {
         return ProfileScreen(profile: profile);

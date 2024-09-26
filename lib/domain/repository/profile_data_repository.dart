@@ -11,10 +11,14 @@ class ProfileDataRepositoryImpl implements ProfileDataRepository {
 
   @override
   Future<List<ProfileData>> getData() async {
-    final response =
-        await dio.get("https://jsonplaceholder.typicode.com/users");
-    return (response.data as List<dynamic>)
-        .map((json) => ProfileRemote.fromJson(json).toData())
-        .toList();
+    try {
+      final response =
+      await dio.get("https://jsonplaceholder.typicode.com/users");
+      return (response.data as List<dynamic>)
+          .map((json) => ProfileRemote.fromJson(json).toData())
+          .toList();
+    } catch (exception) {
+      return [];
+    }
   }
 }

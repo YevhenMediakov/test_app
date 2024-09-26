@@ -17,12 +17,8 @@ final _privateConstructorUsedError = UnsupportedError(
 /// @nodoc
 mixin _$HomeState {
   List<ProfileData> get data => throw _privateConstructorUsedError;
-
   bool get hasRemovedToken => throw _privateConstructorUsedError;
-
-  Exception? get exception => throw _privateConstructorUsedError;
-
-  bool get isLoading => throw _privateConstructorUsedError;
+  bool get exception => throw _privateConstructorUsedError;
 
   /// Create a copy of HomeState
   /// with the given fields replaced by the non-null parameter values.
@@ -35,13 +31,8 @@ mixin _$HomeState {
 abstract class $HomeStateCopyWith<$Res> {
   factory $HomeStateCopyWith(HomeState value, $Res Function(HomeState) then) =
       _$HomeStateCopyWithImpl<$Res, HomeState>;
-
   @useResult
-  $Res call(
-      {List<ProfileData> data,
-      bool hasRemovedToken,
-      Exception? exception,
-      bool isLoading});
+  $Res call({List<ProfileData> data, bool hasRemovedToken, bool exception});
 }
 
 /// @nodoc
@@ -51,7 +42,6 @@ class _$HomeStateCopyWithImpl<$Res, $Val extends HomeState>
 
   // ignore: unused_field
   final $Val _value;
-
   // ignore: unused_field
   final $Res Function($Val) _then;
 
@@ -62,8 +52,7 @@ class _$HomeStateCopyWithImpl<$Res, $Val extends HomeState>
   $Res call({
     Object? data = null,
     Object? hasRemovedToken = null,
-    Object? exception = freezed,
-    Object? isLoading = null,
+    Object? exception = null,
   }) {
     return _then(_value.copyWith(
       data: null == data
@@ -74,13 +63,9 @@ class _$HomeStateCopyWithImpl<$Res, $Val extends HomeState>
           ? _value.hasRemovedToken
           : hasRemovedToken // ignore: cast_nullable_to_non_nullable
               as bool,
-      exception: freezed == exception
+      exception: null == exception
           ? _value.exception
           : exception // ignore: cast_nullable_to_non_nullable
-              as Exception?,
-      isLoading: null == isLoading
-          ? _value.isLoading
-          : isLoading // ignore: cast_nullable_to_non_nullable
               as bool,
     ) as $Val);
   }
@@ -92,14 +77,9 @@ abstract class _$$HomeStateImplCopyWith<$Res>
   factory _$$HomeStateImplCopyWith(
           _$HomeStateImpl value, $Res Function(_$HomeStateImpl) then) =
       __$$HomeStateImplCopyWithImpl<$Res>;
-
   @override
   @useResult
-  $Res call(
-      {List<ProfileData> data,
-      bool hasRemovedToken,
-      Exception? exception,
-      bool isLoading});
+  $Res call({List<ProfileData> data, bool hasRemovedToken, bool exception});
 }
 
 /// @nodoc
@@ -117,8 +97,7 @@ class __$$HomeStateImplCopyWithImpl<$Res>
   $Res call({
     Object? data = null,
     Object? hasRemovedToken = null,
-    Object? exception = freezed,
-    Object? isLoading = null,
+    Object? exception = null,
   }) {
     return _then(_$HomeStateImpl(
       data: null == data
@@ -129,13 +108,9 @@ class __$$HomeStateImplCopyWithImpl<$Res>
           ? _value.hasRemovedToken
           : hasRemovedToken // ignore: cast_nullable_to_non_nullable
               as bool,
-      exception: freezed == exception
+      exception: null == exception
           ? _value.exception
           : exception // ignore: cast_nullable_to_non_nullable
-              as Exception?,
-      isLoading: null == isLoading
-          ? _value.isLoading
-          : isLoading // ignore: cast_nullable_to_non_nullable
               as bool,
     ));
   }
@@ -147,13 +122,11 @@ class _$HomeStateImpl extends _HomeState {
   const _$HomeStateImpl(
       {required final List<ProfileData> data,
       required this.hasRemovedToken,
-      required this.exception,
-      required this.isLoading})
+      required this.exception})
       : _data = data,
         super._();
 
   final List<ProfileData> _data;
-
   @override
   List<ProfileData> get data {
     if (_data is EqualUnmodifiableListView) return _data;
@@ -164,13 +137,11 @@ class _$HomeStateImpl extends _HomeState {
   @override
   final bool hasRemovedToken;
   @override
-  final Exception? exception;
-  @override
-  final bool isLoading;
+  final bool exception;
 
   @override
   String toString() {
-    return 'HomeState(data: $data, hasRemovedToken: $hasRemovedToken, exception: $exception, isLoading: $isLoading)';
+    return 'HomeState(data: $data, hasRemovedToken: $hasRemovedToken, exception: $exception)';
   }
 
   @override
@@ -182,18 +153,12 @@ class _$HomeStateImpl extends _HomeState {
             (identical(other.hasRemovedToken, hasRemovedToken) ||
                 other.hasRemovedToken == hasRemovedToken) &&
             (identical(other.exception, exception) ||
-                other.exception == exception) &&
-            (identical(other.isLoading, isLoading) ||
-                other.isLoading == isLoading));
+                other.exception == exception));
   }
 
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      const DeepCollectionEquality().hash(_data),
-      hasRemovedToken,
-      exception,
-      isLoading);
+  int get hashCode => Object.hash(runtimeType,
+      const DeepCollectionEquality().hash(_data), hasRemovedToken, exception);
 
   /// Create a copy of HomeState
   /// with the given fields replaced by the non-null parameter values.
@@ -208,22 +173,15 @@ abstract class _HomeState extends HomeState {
   const factory _HomeState(
       {required final List<ProfileData> data,
       required final bool hasRemovedToken,
-      required final Exception? exception,
-      required final bool isLoading}) = _$HomeStateImpl;
-
+      required final bool exception}) = _$HomeStateImpl;
   const _HomeState._() : super._();
 
   @override
   List<ProfileData> get data;
-
   @override
   bool get hasRemovedToken;
-
   @override
-  Exception? get exception;
-
-  @override
-  bool get isLoading;
+  bool get exception;
 
   /// Create a copy of HomeState
   /// with the given fields replaced by the non-null parameter values.

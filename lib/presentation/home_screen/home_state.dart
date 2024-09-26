@@ -10,15 +10,13 @@ class HomeState with _$HomeState {
   const factory HomeState({
     required List<ProfileData> data,
     required bool hasRemovedToken,
-    required Exception? exception,
-    required bool isLoading,
+    required bool exception,
   }) = _HomeState;
 
   factory HomeState.initial() {
     return const HomeState(
       data: [],
-      exception: null,
-      isLoading: false,
+      exception: false,
       hasRemovedToken: false,
     );
   }
