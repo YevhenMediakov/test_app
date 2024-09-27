@@ -29,26 +29,26 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     on<GetTokenEvent>((event, emit) async {
       await _addToken(emit);
     });
-    on<ChangePasswordVisibilityEvent>((event, emit) async {
-      await _changePasswordVisibility(emit);
+    on<ChangePasswordVisibilityEvent>((event, emit) {
+      _changePasswordVisibility(emit);
     });
-    on<ChangeSaveTokenEvent>((event, emit) async {
-      await _changeCheckbox(emit);
+    on<ChangeSaveTokenEvent>((event, emit) {
+      _changeCheckbox(emit);
     });
     on<LogInUserEvent>((event, emit) async {
       await _loginUser(emit);
     });
-    on<UpdateEmail>((event, emit) async {
-      await _updateEmail(emit);
+    on<UpdateEmail>((event, emit) {
+      _updateEmail(emit);
     });
-    on<UpdatePassword>((event, emit) async {
-      await _updatePassword(emit);
+    on<UpdatePassword>((event, emit) {
+      _updatePassword(emit);
     });
     add(GetTokenEvent());
-    emailController.addListener(() async {
+    emailController.addListener(() {
       add(UpdateEmail());
     });
-    passwordController.addListener(() async {
+    passwordController.addListener(() {
       add(UpdatePassword());
     });
   }
@@ -65,24 +65,24 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     }
   }
 
-  Future<void> _updateEmail(Emitter<LoginState> emit) async {
+  void _updateEmail(Emitter<LoginState> emit) {
     emit(state.copyWith(email: emailController.text, isEmailValid: true));
   }
 
-  Future<void> _changePasswordVisibility(Emitter<LoginState> emit) async {
+  void _changePasswordVisibility(Emitter<LoginState> emit) {
     emit(state.copyWith(isPasswordObscureText: !state.isPasswordObscureText));
   }
 
-  Future<void> _changeCheckbox(Emitter<LoginState> emit) async {
+  void _changeCheckbox(Emitter<LoginState> emit) {
     emit(state.copyWith(isCheckboxValid: !state.isCheckboxValid));
   }
 
-  Future<void> _updatePassword(Emitter<LoginState> emit) async {
+  void _updatePassword(Emitter<LoginState> emit) {
     emit(state.copyWith(
         password: passwordController.text, isPasswordValid: true));
   }
 
-  Future<bool> _validateFields(Emitter<LoginState> emit) async {
+  bool _validateFields(Emitter<LoginState> emit) {
     final emailValid = _emailValidator.validate(email: state.email);
     final passwordValid = _passwordValidator.validate(password: state.password);
     emit(state.copyWith(
@@ -91,8 +91,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
   }
 
   Future<void> _loginUser(Emitter<LoginState> emit) async {
-    final valid = await _validateFields(emit);
-    if (!valid) {
+    if (!_validateFields(emit)) {
       return;
     }
 
