@@ -26,12 +26,19 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   }
 
   Future<void> _getData(Emitter<HomeState> emit) async {
-    final data = await _profileDataRepository.getData();
-    if (data.isEmpty) {
-      emit(state.copyWith(exception: true));
-      emit(state.copyWith(exception: false));
-    } else {
-      emit(state.copyWith(data: data));
+    try {
+      if (state.data.isEmpty) {
+        emit(state.copyWith(isLoading: true));
+      }
+      final data = await _profileDataRepository.getData();
+      if (data.isEmpty) {
+        emit(state.copyWith(exception: true));
+        emit(state.copyWith(exception: false));
+      } else {
+        emit(state.copyWith(data: data));
+      }
+    } finally {
+      emit(state.copyWith(isLoading: false));
     }
   }
 

@@ -7,6 +7,14 @@
   "@noInternetConnectionError": {
     "type": "text"
   },
+  "emailValidatorError": "Email is not valid",
+  "@emailValidatorError": {
+    "type": "text"
+  },
+  "passwordValidatorError": "Password is not valid",
+  "@passwordValidatorError": {
+    "type": "text"
+  },
   "loginScreenEmail": "Email",
   "@loginScreenEmail": {
     "type": "text"

@@ -22,6 +22,8 @@ mixin _$HomeState {
 
   bool get exception => throw _privateConstructorUsedError;
 
+  bool get isLoading => throw _privateConstructorUsedError;
+
   /// Create a copy of HomeState
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
@@ -35,7 +37,11 @@ abstract class $HomeStateCopyWith<$Res> {
       _$HomeStateCopyWithImpl<$Res, HomeState>;
 
   @useResult
-  $Res call({List<ProfileData> data, bool hasRemovedToken, bool exception});
+  $Res call(
+      {List<ProfileData> data,
+      bool hasRemovedToken,
+      bool exception,
+      bool isLoading});
 }
 
 /// @nodoc
@@ -57,6 +63,7 @@ class _$HomeStateCopyWithImpl<$Res, $Val extends HomeState>
     Object? data = null,
     Object? hasRemovedToken = null,
     Object? exception = null,
+    Object? isLoading = null,
   }) {
     return _then(_value.copyWith(
       data: null == data
@@ -71,6 +78,10 @@ class _$HomeStateCopyWithImpl<$Res, $Val extends HomeState>
           ? _value.exception
           : exception // ignore: cast_nullable_to_non_nullable
               as bool,
+      isLoading: null == isLoading
+          ? _value.isLoading
+          : isLoading // ignore: cast_nullable_to_non_nullable
+              as bool,
     ) as $Val);
   }
 }
@@ -84,7 +95,11 @@ abstract class _$$HomeStateImplCopyWith<$Res>
 
   @override
   @useResult
-  $Res call({List<ProfileData> data, bool hasRemovedToken, bool exception});
+  $Res call(
+      {List<ProfileData> data,
+      bool hasRemovedToken,
+      bool exception,
+      bool isLoading});
 }
 
 /// @nodoc
@@ -103,6 +118,7 @@ class __$$HomeStateImplCopyWithImpl<$Res>
     Object? data = null,
     Object? hasRemovedToken = null,
     Object? exception = null,
+    Object? isLoading = null,
   }) {
     return _then(_$HomeStateImpl(
       data: null == data
@@ -117,6 +133,10 @@ class __$$HomeStateImplCopyWithImpl<$Res>
           ? _value.exception
           : exception // ignore: cast_nullable_to_non_nullable
               as bool,
+      isLoading: null == isLoading
+          ? _value.isLoading
+          : isLoading // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -127,7 +147,8 @@ class _$HomeStateImpl extends _HomeState {
   const _$HomeStateImpl(
       {required final List<ProfileData> data,
       required this.hasRemovedToken,
-      required this.exception})
+      required this.exception,
+      required this.isLoading})
       : _data = data,
         super._();
 
@@ -144,10 +165,12 @@ class _$HomeStateImpl extends _HomeState {
   final bool hasRemovedToken;
   @override
   final bool exception;
+  @override
+  final bool isLoading;
 
   @override
   String toString() {
-    return 'HomeState(data: $data, hasRemovedToken: $hasRemovedToken, exception: $exception)';
+    return 'HomeState(data: $data, hasRemovedToken: $hasRemovedToken, exception: $exception, isLoading: $isLoading)';
   }
 
   @override
@@ -159,12 +182,18 @@ class _$HomeStateImpl extends _HomeState {
             (identical(other.hasRemovedToken, hasRemovedToken) ||
                 other.hasRemovedToken == hasRemovedToken) &&
             (identical(other.exception, exception) ||
-                other.exception == exception));
+                other.exception == exception) &&
+            (identical(other.isLoading, isLoading) ||
+                other.isLoading == isLoading));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType,
-      const DeepCollectionEquality().hash(_data), hasRemovedToken, exception);
+  int get hashCode => Object.hash(
+      runtimeType,
+      const DeepCollectionEquality().hash(_data),
+      hasRemovedToken,
+      exception,
+      isLoading);
 
   /// Create a copy of HomeState
   /// with the given fields replaced by the non-null parameter values.
@@ -179,7 +208,8 @@ abstract class _HomeState extends HomeState {
   const factory _HomeState(
       {required final List<ProfileData> data,
       required final bool hasRemovedToken,
-      required final bool exception}) = _$HomeStateImpl;
+      required final bool exception,
+      required final bool isLoading}) = _$HomeStateImpl;
 
   const _HomeState._() : super._();
 
@@ -191,6 +221,9 @@ abstract class _HomeState extends HomeState {
 
   @override
   bool get exception;
+
+  @override
+  bool get isLoading;
 
   /// Create a copy of HomeState
   /// with the given fields replaced by the non-null parameter values.

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:loader_overlay/loader_overlay.dart';
 import 'package:test_prj/models/profile.dart';
 import 'package:test_prj/presentation/components/extensions/build_context_extensions.dart';
 import 'package:test_prj/presentation/home_screen/home_bloc.dart';
@@ -26,6 +27,11 @@ class HomeScreen extends StatelessWidget {
             listener: (context, state) {
               if (state.hasRemovedToken) {
                 _logOut(context);
+              }
+              if (state.isLoading) {
+                context.loaderOverlay.show();
+              } else {
+                context.loaderOverlay.hide();
               }
               if (state.exception) {
                 _showSnackBar(context);

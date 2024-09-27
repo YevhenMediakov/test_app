@@ -27,13 +27,16 @@ class LogInScreen extends StatelessWidget {
       child: Builder(builder: (context) {
         return BlocListener<LoginBloc, LoginState>(
             listener: (context, state) {
-              if (context.read<LoginBloc>().state.isLogInComplete) {
+              if (state.isLogInComplete) {
                 openHomeScreen(context);
               }
-              if (context.read<LoginBloc>().state.isLoading) {
+              if (state.isLoading) {
                 context.loaderOverlay.show();
               } else {
                 context.loaderOverlay.hide();
+              }
+              if (state.showSnackBar) {
+                _showValidatorError(context, state.isEmailValid);
               }
             },
             child: buildScaffold(context));
@@ -87,6 +90,20 @@ class LogInScreen extends StatelessWidget {
             // const SliverFillRemaining(),
           ],
         ),
+      ),
+    );
+  }
+
+  void _showValidatorError(BuildContext context, bool isEmailValid) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: isEmailValid
+            ? Text(
+                context.strings.passwordValidatorError,
+              )
+            : Text(
+                context.strings.emailValidatorError,
+              ),
       ),
     );
   }

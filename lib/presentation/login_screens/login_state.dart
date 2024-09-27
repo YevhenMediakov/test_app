@@ -15,6 +15,7 @@ class LoginState with _$LoginState {
       required bool isPasswordValid,
       required bool isCheckboxValid,
       required bool isLogInComplete,
+      required bool showSnackBar,
       required Exception? exception,
       required bool isLoading}) = _LoginState;
 
@@ -26,6 +27,7 @@ class LoginState with _$LoginState {
       isPasswordValid: true,
       isCheckboxValid: false,
       isPasswordObscureText: true,
+      showSnackBar: false,
       exception: null,
       isLoading: false,
       isLogInComplete: false,

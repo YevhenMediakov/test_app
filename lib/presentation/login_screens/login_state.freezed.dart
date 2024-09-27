@@ -30,6 +30,8 @@ mixin _$LoginState {
 
   bool get isLogInComplete => throw _privateConstructorUsedError;
 
+  bool get showSnackBar => throw _privateConstructorUsedError;
+
   Exception? get exception => throw _privateConstructorUsedError;
 
   bool get isLoading => throw _privateConstructorUsedError;
@@ -56,6 +58,7 @@ abstract class $LoginStateCopyWith<$Res> {
       bool isPasswordValid,
       bool isCheckboxValid,
       bool isLogInComplete,
+      bool showSnackBar,
       Exception? exception,
       bool isLoading});
 }
@@ -83,6 +86,7 @@ class _$LoginStateCopyWithImpl<$Res, $Val extends LoginState>
     Object? isPasswordValid = null,
     Object? isCheckboxValid = null,
     Object? isLogInComplete = null,
+    Object? showSnackBar = null,
     Object? exception = freezed,
     Object? isLoading = null,
   }) {
@@ -115,6 +119,10 @@ class _$LoginStateCopyWithImpl<$Res, $Val extends LoginState>
           ? _value.isLogInComplete
           : isLogInComplete // ignore: cast_nullable_to_non_nullable
               as bool,
+      showSnackBar: null == showSnackBar
+          ? _value.showSnackBar
+          : showSnackBar // ignore: cast_nullable_to_non_nullable
+              as bool,
       exception: freezed == exception
           ? _value.exception
           : exception // ignore: cast_nullable_to_non_nullable
@@ -144,6 +152,7 @@ abstract class _$$LoginStateImplCopyWith<$Res>
       bool isPasswordValid,
       bool isCheckboxValid,
       bool isLogInComplete,
+      bool showSnackBar,
       Exception? exception,
       bool isLoading});
 }
@@ -168,6 +177,7 @@ class __$$LoginStateImplCopyWithImpl<$Res>
     Object? isPasswordValid = null,
     Object? isCheckboxValid = null,
     Object? isLogInComplete = null,
+    Object? showSnackBar = null,
     Object? exception = freezed,
     Object? isLoading = null,
   }) {
@@ -200,6 +210,10 @@ class __$$LoginStateImplCopyWithImpl<$Res>
           ? _value.isLogInComplete
           : isLogInComplete // ignore: cast_nullable_to_non_nullable
               as bool,
+      showSnackBar: null == showSnackBar
+          ? _value.showSnackBar
+          : showSnackBar // ignore: cast_nullable_to_non_nullable
+              as bool,
       exception: freezed == exception
           ? _value.exception
           : exception // ignore: cast_nullable_to_non_nullable
@@ -223,6 +237,7 @@ class _$LoginStateImpl extends _LoginState with DiagnosticableTreeMixin {
       required this.isPasswordValid,
       required this.isCheckboxValid,
       required this.isLogInComplete,
+      required this.showSnackBar,
       required this.exception,
       required this.isLoading})
       : super._();
@@ -242,13 +257,15 @@ class _$LoginStateImpl extends _LoginState with DiagnosticableTreeMixin {
   @override
   final bool isLogInComplete;
   @override
+  final bool showSnackBar;
+  @override
   final Exception? exception;
   @override
   final bool isLoading;
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'LoginState(email: $email, password: $password, isEmailValid: $isEmailValid, isPasswordObscureText: $isPasswordObscureText, isPasswordValid: $isPasswordValid, isCheckboxValid: $isCheckboxValid, isLogInComplete: $isLogInComplete, exception: $exception, isLoading: $isLoading)';
+    return 'LoginState(email: $email, password: $password, isEmailValid: $isEmailValid, isPasswordObscureText: $isPasswordObscureText, isPasswordValid: $isPasswordValid, isCheckboxValid: $isCheckboxValid, isLogInComplete: $isLogInComplete, showSnackBar: $showSnackBar, exception: $exception, isLoading: $isLoading)';
   }
 
   @override
@@ -263,6 +280,7 @@ class _$LoginStateImpl extends _LoginState with DiagnosticableTreeMixin {
       ..add(DiagnosticsProperty('isPasswordValid', isPasswordValid))
       ..add(DiagnosticsProperty('isCheckboxValid', isCheckboxValid))
       ..add(DiagnosticsProperty('isLogInComplete', isLogInComplete))
+      ..add(DiagnosticsProperty('showSnackBar', showSnackBar))
       ..add(DiagnosticsProperty('exception', exception))
       ..add(DiagnosticsProperty('isLoading', isLoading));
   }
@@ -285,6 +303,8 @@ class _$LoginStateImpl extends _LoginState with DiagnosticableTreeMixin {
                 other.isCheckboxValid == isCheckboxValid) &&
             (identical(other.isLogInComplete, isLogInComplete) ||
                 other.isLogInComplete == isLogInComplete) &&
+            (identical(other.showSnackBar, showSnackBar) ||
+                other.showSnackBar == showSnackBar) &&
             (identical(other.exception, exception) ||
                 other.exception == exception) &&
             (identical(other.isLoading, isLoading) ||
@@ -301,6 +321,7 @@ class _$LoginStateImpl extends _LoginState with DiagnosticableTreeMixin {
       isPasswordValid,
       isCheckboxValid,
       isLogInComplete,
+      showSnackBar,
       exception,
       isLoading);
 
@@ -322,6 +343,7 @@ abstract class _LoginState extends LoginState {
       required final bool isPasswordValid,
       required final bool isCheckboxValid,
       required final bool isLogInComplete,
+      required final bool showSnackBar,
       required final Exception? exception,
       required final bool isLoading}) = _$LoginStateImpl;
 
@@ -347,6 +369,9 @@ abstract class _LoginState extends LoginState {
 
   @override
   bool get isLogInComplete;
+
+  @override
+  bool get showSnackBar;
 
   @override
   Exception? get exception;

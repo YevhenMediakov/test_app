@@ -92,6 +92,8 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
 
   Future<void> _loginUser(Emitter<LoginState> emit) async {
     if (!_validateFields(emit)) {
+      emit(state.copyWith(showSnackBar: true));
+      emit(state.copyWith(showSnackBar: false));
       return;
     }
 

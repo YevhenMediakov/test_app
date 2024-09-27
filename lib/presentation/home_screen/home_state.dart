@@ -11,6 +11,7 @@ class HomeState with _$HomeState {
     required List<ProfileData> data,
     required bool hasRemovedToken,
     required bool exception,
+    required bool isLoading,
   }) = _HomeState;
 
   factory HomeState.initial() {
@@ -18,6 +19,7 @@ class HomeState with _$HomeState {
       data: [],
       exception: false,
       hasRemovedToken: false,
+      isLoading: false,
     );
   }
 }
