@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 import 'package:test_prj/presentation/home_screen/home_state.dart';
@@ -9,6 +11,7 @@ part 'home_event.dart';
 class HomeBloc extends Bloc<HomeEvent, HomeState> {
   final LocalStorageRepository _localStorageRepository;
   final ProfileDataRepository _profileDataRepository;
+  final completer = Completer();
 
   HomeBloc({
     required final profileDataRepository,
@@ -17,15 +20,15 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         _profileDataRepository = profileDataRepository,
         super(HomeState.initial()) {
     on<GetDataEvent>((event, emit) async {
-      await _getData(emit);
+      await _getData(emit, event.completer);
     });
     on<LogOutEvent>((event, emit) async {
       await _logOut(emit);
     });
-    add(GetDataEvent());
+    add(GetDataEvent(completer));
   }
 
-  Future<void> _getData(Emitter<HomeState> emit) async {
+  Future<void> _getData(Emitter<HomeState> emit, Completer completer) async {
     try {
       if (state.data.isEmpty) {
         emit(state.copyWith(isLoading: true));
@@ -38,6 +41,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         emit(state.copyWith(data: data));
       }
     } finally {
+      completer.complete();
       emit(state.copyWith(isLoading: false));
     }
   }

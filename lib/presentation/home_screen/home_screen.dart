@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:loader_overlay/loader_overlay.dart';
@@ -54,13 +56,16 @@ class HomeScreen extends StatelessWidget {
           _ScreenAction(
             onPressed: () {
               bloc.add(LogOutEvent());
+
             },
           )
         ],
       ),
       body: RefreshIndicator(
         onRefresh: () async {
-          bloc.add(GetDataEvent());
+          final completer = Completer();
+          bloc.add(GetDataEvent(completer));
+          await completer.future;
         },
         child: ListView.builder(
           itemCount: bloc.state.data.length,
