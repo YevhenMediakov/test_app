@@ -23,15 +23,11 @@ class AppLoadingOverlay extends StatelessWidget {
   Widget build(BuildContext context) {
     return IgnorePointer(
       ignoring: !isLoading,
-      child: AnimatedOpacity(
-        duration: visibilityChangeDuration,
-        opacity: isLoading ? 1 : 0,
-        child: Container(
-          height: height,
-          color: backgroundColor ?? Colors.transparent,
-          alignment: Alignment.center,
-          child: const AppLoadingIndicator(),
-        ),
+      child: Container(
+        height: height,
+        color: backgroundColor ?? Colors.transparent,
+        alignment: Alignment.center,
+        child: const AppLoadingIndicator(),
       ),
     );
   }

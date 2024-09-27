@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 import 'package:test_prj/presentation/components/extensions/build_context_extensions.dart';
+import 'package:test_prj/presentation/components/loading/app_loading_overlay.dart';
 import 'package:test_prj/presentation/components/text_field/app_text_field.dart';
 import 'package:test_prj/presentation/components/text_field/show_password_button.dart';
 import 'package:test_prj/presentation/home_screen/home_screen.dart';
@@ -9,6 +10,7 @@ import 'package:test_prj/presentation/login_screens/login_bloc.dart';
 import 'package:test_prj/presentation/login_screens/login_state.dart';
 import 'package:test_prj/repository/local_storage_repository.dart';
 import 'package:test_prj/repository/login_repository.dart';
+import 'package:test_prj/resources/app_colors.dart';
 import 'package:test_prj/resources/app_text_styles.dart';
 import 'package:test_prj/validators/email_validator.dart';
 import 'package:test_prj/validators/password_validator.dart';
@@ -46,49 +48,55 @@ class LogInScreen extends StatelessWidget {
 
   Widget buildScaffold(BuildContext context) {
     final bloc = context.watch<LoginBloc>();
-    return Scaffold(
-      body: Padding(
-        padding: const EdgeInsets.fromLTRB(16, 24, 16, 16),
-        child: CustomScrollView(
-          slivers: [
-            const SliverToBoxAdapter(
-              child: SizedBox(
-                height: 50,
+    return LoaderOverlay(
+      overlayColor: AppColors.loaderBackground,
+      overlayWidgetBuilder: (context) {
+        return const AppLoadingOverlay();
+      },
+      child: Scaffold(
+        body: Padding(
+          padding: const EdgeInsets.fromLTRB(16, 24, 16, 16),
+          child: CustomScrollView(
+            slivers: [
+              const SliverToBoxAdapter(
+                child: SizedBox(
+                  height: 50,
+                ),
               ),
-            ),
-            SliverToBoxAdapter(
-              child: Center(
-                child: Text(context.strings.loginScreenTitle,
-                    style: AppTextStyles.h1Bold),
+              SliverToBoxAdapter(
+                child: Center(
+                  child: Text(context.strings.loginScreenTitle,
+                      style: AppTextStyles.h1Bold),
+                ),
               ),
-            ),
-            const SliverToBoxAdapter(child: SizedBox(height: 24)),
-            const SliverToBoxAdapter(child: _LoginTextFields()),
-            const SliverToBoxAdapter(child: SizedBox(height: 24)),
-            SliverToBoxAdapter(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(context.strings.loginScreenCheckBox,
-                      style: AppTextStyles.bodyL),
-                  Checkbox(
-                      value: bloc.state.isCheckboxValid,
-                      onChanged: (value) {
-                        bloc.add(ChangeSaveTokenEvent());
-                      }),
-                ],
+              const SliverToBoxAdapter(child: SizedBox(height: 24)),
+              const SliverToBoxAdapter(child: _LoginTextFields()),
+              const SliverToBoxAdapter(child: SizedBox(height: 24)),
+              SliverToBoxAdapter(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(context.strings.loginScreenCheckBox,
+                        style: AppTextStyles.bodyL),
+                    Checkbox(
+                        value: bloc.state.isCheckboxValid,
+                        onChanged: (value) {
+                          bloc.add(ChangeSaveTokenEvent());
+                        }),
+                  ],
+                ),
               ),
-            ),
-            SliverToBoxAdapter(
-              child: TextButton(
-                onPressed: () {
-                  bloc.add(LogInUserEvent());
-                },
-                child: Text(context.strings.loginScreenButton),
+              SliverToBoxAdapter(
+                child: TextButton(
+                  onPressed: () {
+                    bloc.add(LogInUserEvent());
+                  },
+                  child: Text(context.strings.loginScreenButton),
+                ),
               ),
-            ),
-            // const SliverFillRemaining(),
-          ],
+              // const SliverFillRemaining(),
+            ],
+          ),
         ),
       ),
     );
@@ -111,7 +119,12 @@ class LogInScreen extends StatelessWidget {
   void openHomeScreen(BuildContext context) {
     Navigator.of(context).pushReplacement(
       MaterialPageRoute(builder: (BuildContext context) {
-        return const HomeScreen();
+        return LoaderOverlay(
+            overlayWidgetBuilder: (context) {
+              return const AppLoadingOverlay();
+            },
+            overlayWholeScreen: false,
+            child: const HomeScreen());
       }),
     );
   }
