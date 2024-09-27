@@ -37,12 +37,10 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         emit(state.copyWith(isLoading: true));
       }
       final data = await _profileDataRepository.getData();
-      if (data.isEmpty) {
-        emit(state.copyWith(exception: true));
-        emit(state.copyWith(exception: false));
-      } else {
-        emit(state.copyWith(data: data));
-      }
+      emit(state.copyWith(data: data));
+    } catch (exception) {
+      emit(state.copyWith(exception: true));
+      emit(state.copyWith(exception: false));
     } finally {
       completer.complete();
       emit(state.copyWith(isLoading: false));
