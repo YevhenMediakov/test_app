@@ -45,10 +45,6 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       await _updatePassword(emit);
     });
     add(GetTokenEvent());
-    _addListeners();
-  }
-
-  Future<void> _addListeners() async {
     emailController.addListener(() async {
       add(UpdateEmail());
     });
