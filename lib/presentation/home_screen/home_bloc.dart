@@ -20,7 +20,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         _profileDataRepository = profileDataRepository,
         super(HomeState.initial()) {
     on<GetDataEvent>((event, emit) async {
-      await _getData(emit, event.completer);
+      await _getData(event, emit);
     });
     on<LogOutEvent>((event, emit) async {
       await _logOut(emit);
@@ -28,7 +28,10 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     add(GetDataEvent(completer));
   }
 
-  Future<void> _getData(Emitter<HomeState> emit, Completer completer) async {
+  Future<void> _getData(
+    GetDataEvent event,
+    Emitter<HomeState> emit,
+  ) async {
     try {
       if (state.data.isEmpty) {
         emit(state.copyWith(isLoading: true));
